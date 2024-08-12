@@ -14,7 +14,28 @@ class Login extends Component {
 
     render() {
         return (
-            <div>Hello Login</div>
+            <div className='login-background'>
+                <div className='login-container'>
+                    <div className='login-content row'>
+                        <div className='col-12 text-login'>Login</div>
+                        <div className='col-12 form-group login-input'>
+                            <label>Username</label>
+                            <input className='form-control' type='text' placeholder='User name' />
+                        </div>
+                        <div className='col-12 form-group login-input'>
+                            <label>Password</label>
+                            <input className='form-control' type='password' placeholder='Pasword' />
+                        </div>
+                        <div className='col-12'>
+                            <button className='btn-login'>Login</button>
+                        </div>
+                        <div className='col-12'>
+                            <span>Forgot your password ?</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         )
     }
 }
