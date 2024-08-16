@@ -3,11 +3,14 @@
     height: 100vh;
 
     .login-container {
-        background: #fff;
-        width: 400px;
-        height: 100%;
-        margin: 0 auto;
+        background-color: #fff;
+        width: 300px;
+        height: 450px;
         border-radius: 10px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
 
         .login-content {
             padding: 20px;
@@ -30,12 +33,50 @@
                 height: 35px;
                 outline: none;
                 border: none;
-                border-radius: 3px;
+                border-radius: 5px;
                 color: #fff;
+                font-size: 16px;
 
             }
+
+            .forgot-password {
+                font-size: 12px;
+            }
+
+            .social-login {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: 10px;
+
+                i {
+                    font-size: 30px;
+                }
+
+                .google {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: rgb(214, 60, 60);
+                    height: 50px;
+                    width: 50px;
+                    border-radius: 50%;
+                    color: #fff;
+                    margin-right: 5px;
+                }
+
+                .facebook {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: rgb(73, 73, 158);
+                    height: 50px;
+                    width: 50px;
+                    border-radius: 50%;
+                    color: #fff;
+                    margin-left: 5px;
+                }
+            }
         }
-
-
     }
 }
