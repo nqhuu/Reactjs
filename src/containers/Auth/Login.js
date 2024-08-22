@@ -47,6 +47,7 @@ class Login extends Component {
 
             if (data && data.errCode === 0) {
                 this.props.userLoginSuccess(data.user)
+                // this.props.navigate('/system/user-manage')
             }
 
         } catch (e) {
@@ -118,7 +119,7 @@ const mapDispatchToProps = dispatch => {
     return {
         navigate: (path) => dispatch(push(path)),
         // userLoginFail: () => dispatch(actions.adminLoginFail()),
-        userLoginSuccess: () => dispatch(actions.userLoginSuccess.userInfo)
+        userLoginSuccess: (userInfo) => dispatch(actions.userLoginSuccess(userInfo))
     };
 };
 

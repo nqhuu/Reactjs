@@ -3,5 +3,5 @@
 // trong file index này ta sẽ thực hiện import các fiel khác
 // mục đích sử dụng như này để khi import vào các file khác ta chỉ cẩn import 1 folder là có thể lấy hết các export chứa trong folder đó
 
-// export { default as adminService } from './adminService';
-export { default as userService } from './userService'
+export { default as adminService } from './adminService';
+// export { default as userService } from './userService'
