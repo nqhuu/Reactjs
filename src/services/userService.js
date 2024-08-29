@@ -13,5 +13,10 @@ const editUser = (inputId) => {
     return axios.put('/api/put-user', { inputId })
 }
 
+const createNewUserService = (data) => {
+    console.log('check data from service', data)
+    return axios.post('/api/create-new-user', data)
+}
+
 // export default handleLoginApi;
-export { handleLoginApi, getAllUsers };
+export { handleLoginApi, getAllUsers, createNewUserService };

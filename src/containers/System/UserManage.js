@@ -2,31 +2,35 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './UserManage.scss'
-import { getAllUsers } from '../../services/userService'
+import { getAllUsers, createNewUserService } from '../../services/userService'
 import ModalUser from './ModalUser';
+import axios from 'axios';
 
 class UserManage extends Component {
 
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            arrUsers: []
-        }
+    // constructor(props) {
+    //     super(props);
+    //     this.
+    // }
+    state = {
+        arrUsers: []
+    }
+
+
+    async componentDidMount() {
+        await this.getAllUsersFromReact()
 
     }
 
-    async componentDidMount() {
+    getAllUsersFromReact = async () => {
         let response = await getAllUsers('ALL')
-        console.log(response)
         if (response && response.errCode === 0) {
             this.setState({
                 arrUsers: response.users,
                 isOpenModalUser: false
-
             })
         }
-
     }
 
     handleAddNewUser = () => {
@@ -41,14 +45,36 @@ class UserManage extends Component {
         })
     }
 
+
+    createNewUser = async (data) => { // data sẽ được lấy bên component con ModalUser, hàm này sẽ truyền vào ModalUser thông qua props của ModalUser
+        // console.log('state cha: ', data)
+        try {
+            let response = await createNewUserService(data)
+            if (response && response.errCode !== 0) {
+                alert(response.errMessage)
+            } else {
+                await this.getAllUsersFromReact();
+
+            }
+            // console.log('createNewUser', response)
+        } catch (e) {
+            return e
+        }
+    }
+
+    handleEditUser = (id) => {
+
+    }
+
     render() {
         let arrUsers = this.state.arrUsers;
         return (
             <div className="users-container">
                 <ModalUser
+                    // truyền props cho file ModalUser
                     isOpen={this.state.isOpenModalUser}
                     toggleFromParent={this.toggleUserModal}
-                    test={'abc'}
+                    createNewUser={this.createNewUser}
                 />
                 <div className='title text-center'>MANAGE USERS</div>
                 <div className='mx-1'>
