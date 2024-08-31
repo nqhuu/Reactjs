@@ -47,6 +47,39 @@
     color: red;
 }
 
+
+.users-table {
+
+    // height: 55em;
+    // overflow: scroll;
+    tbody {
+        display: block;
+        height: 50em;
+        overflow: auto;
+    }
+
+    thead,
+    tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        /* even columns width , fix width of table too*/
+    }
+
+    td:first-child,
+    th:first-child {
+        width: 40px;
+        text-align: center;
+    }
+
+    thead {
+        width: calc(100% - 1.19em)
+            /* scrollbar is average 1em/16px width, remove it from thead width */
+    }
+
+}
+
+
 .modal-user-container {
 
     .modal-header {

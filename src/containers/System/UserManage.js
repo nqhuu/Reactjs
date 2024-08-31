@@ -2,20 +2,22 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './UserManage.scss'
-import { getAllUsers, createNewUserService } from '../../services/userService'
+import { getAllUsers, createNewUserService, deleteUserService } from '../../services/userService'
 import ModalUser from './ModalUser';
 import axios from 'axios';
+import { emitter } from '../../utils/emitter'; //nhập module events từ Node.js. Module này cung cấp một lớp EventEmitter để quản lý và phát các sự kiện (events).
 
 class UserManage extends Component {
 
 
-    // constructor(props) {
-    //     super(props);
-    //     this.
-    // }
-    state = {
-        arrUsers: []
+    constructor(props) {
+        super(props);
+        this.state = {
+            arrUsers: []
+        };
+
     }
+
 
 
     async componentDidMount() {
@@ -46,24 +48,51 @@ class UserManage extends Component {
     }
 
 
-    createNewUser = async (data) => { // data sẽ được lấy bên component con ModalUser, hàm này sẽ truyền vào ModalUser thông qua props của ModalUser
-        // console.log('state cha: ', data)
+    // createNewUser = async (data) => { // data sẽ được lấy bên component con ModalUser, hàm này sẽ dược truyền vào ModalUser thông qua props của ModalUser
+    //     // console.log('state cha: ', data)
+    //     try {
+    //         let response = await createNewUserService(data) // truyền dữ liệu sang hàm createNewUserService bên userSevice để thử hiện cập nhật dữ liệu trong db
+    //         if (response && response.errCode !== 0) {
+    //             alert(response.errMessage)
+    //         } else {
+    //             await this.getAllUsersFromReact();
+
+    //         }
+    //         // console.log('createNewUser', response)
+    //     } catch (e) {
+    //         return e
+    //     }
+    // }
+    createNewUser = async (data) => {
         try {
             let response = await createNewUserService(data)
             if (response && response.errCode !== 0) {
                 alert(response.errMessage)
             } else {
-                await this.getAllUsersFromReact();
-
+                await this.getAllUsersFromReact()
+                emitter.emit('EVENT_CLEAR') // emit để phát đi sự kiện
             }
-            // console.log('createNewUser', response)
+
         } catch (e) {
             return e
         }
     }
 
-    handleEditUser = (id) => {
+    handleEditUser = async (user) => {
 
+    }
+
+    handleDeleteUser = async (userId) => {
+        try {
+            let response = await deleteUserService(userId.id)
+            if (response && response.errCode !== 0) {
+                alert(response.errMessage)
+            } else {
+                await this.getAllUsersFromReact()
+            }
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     render() {
@@ -90,6 +119,7 @@ class UserManage extends Component {
                     <table id="customers">
                         <thead>
                             <tr>
+                                <th>STT</th>
                                 <th>Email</th>
                                 <th>First name</th>
                                 <th>Last name</th>
@@ -101,13 +131,14 @@ class UserManage extends Component {
                             {arrUsers && arrUsers.map((item, index) => {
                                 return (
                                     <tr key={item.id}>
+                                        <td>{index + 1}</td>
                                         <td>{item.email}</td>
                                         <td>{item.firstName}</td>
                                         <td>{item.lastName}</td>
                                         <td>{item.address}</td>
                                         <td>
                                             <button className='btn-edit'><i className="fa fa-pencil-alt"></i></button>
-                                            <button className='btn-delete' onClick={(item) => this.handleEditUser(item.id)}><i className="fa fa-trash"></i></button>
+                                            <button className='btn-delete' onClick={() => this.handleDeleteUser(item)}><i className="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
                                 )
