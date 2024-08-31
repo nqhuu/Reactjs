@@ -41,7 +41,7 @@ class ModalUser extends Component {
     }
 
     listenToEmitter() {
-        emitter.on('EVENT_CLEAR', () => { // on để bắt sự kiện được phát ra
+        emitter.on('EVENT_CLEAR', () => { // on để bắt sự kiện được phát ra, trong đối số thứ 2 của hàm bắt buộc là 1 callback để ta đưa các đối số từ emitter.emit vào xử lý chúng bên trong hàm callback này
             this.setState({
                 email: '',
                 password: '',
