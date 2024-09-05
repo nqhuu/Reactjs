@@ -35,7 +35,7 @@
 
     &:hover {
         background-color: transparent !important;
-        color: grey;
+        color: blue;
     }
 }
 
@@ -58,8 +58,7 @@
         overflow: auto;
     }
 
-    thead,
-    tbody tr {
+    tr {
         display: table;
         width: 100%;
         table-layout: fixed;
@@ -72,9 +71,29 @@
         text-align: center;
     }
 
+    td:last-child,
+    th:last-child {
+        width: 100px;
+        text-align: center;
+    }
+
+
+    th {
+        text-align: center;
+    }
+
     thead {
         width: calc(100% - 1.19em)
             /* scrollbar is average 1em/16px width, remove it from thead width */
+    }
+
+    input,
+    option,
+    select {
+        border: none;
+        outline: none;
+        height: 30px;
+        width: 100%;
     }
 
 }

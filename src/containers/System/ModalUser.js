@@ -60,6 +60,16 @@ class ModalUser extends Component {
 
     toggle = () => {
         this.props.toggleFromParent();
+        this.setState({
+            email: '',
+            password: '',
+            firstName: '',
+            lastName: '',
+            address: '',
+            phonenumber: '',
+            gender: '0',
+            role: '2'
+        })
     }
 
     // handleOnChangeInput = (event, id) => {
@@ -240,49 +250,49 @@ class ModalUser extends Component {
                             <label>Email</label>
                             <input type='text' name='email' placeholder='Nhập Email'
                                 onChange={(event) => { this.handleOnChangeInput(event, 'email') }}
-                                value={this.state.email}
+                                value={this.state.email || ''}
                             />
                         </div>
                         <div className='input-container'>
                             <label>Password</label>
                             <input type='password' name='password' placeholder='Nhập Password'
                                 onChange={(event) => { this.handleOnChangeInput(event, 'password') }}
-                                value={this.state.password}
+                                value={this.state.password || ''}
                             />
                         </div>
                         <div className='input-container'>
                             <label>First Name</label>
                             <input type='text' name='firstName' placeholder='Họ'
                                 onChange={(event) => { this.handleOnChangeInput(event, 'firstName') }}
-                                value={this.state.firstName}
+                                value={this.state.firstName || ''}
                             />
                         </div>
                         <div className='input-container'>
                             <label>Last Name</label>
                             <input type='text' name='lastName' placeholder='Tên'
                                 onChange={(event) => { this.handleOnChangeInput(event, 'lastName') }}
-                                value={this.state.lastName}
+                                value={this.state.lastName || ''}
                             />
                         </div>
                         <div className='input-container'>
                             <label>Address</label>
                             <input type='text' name='address' placeholder='Địa chỉ'
                                 onChange={(event) => { this.handleOnChangeInput(event, 'address') }}
-                                value={this.state.address}
+                                value={this.state.address || ''}
                             />
                         </div>
                         <div className='input-container'>
                             <label>Phone Number</label>
                             <input type='text' name='phonenumber' placeholder='Số điện thoại'
                                 onChange={(event) => { this.handleOnChangeInput(event, 'phonenumber') }}
-                                value={this.state.phonenumber}
+                                value={this.state.phonenumber || ''}
                             />
                         </div>
                         <div className='input-container'>
                             <label>Gender</label>
                             <select name='gender'
                                 onChange={(event) => { this.handleOnChangeInput(event, 'gender') }}
-                                value={this.state.sex}
+                                value={this.state.gender}
                             >
                                 <option value={0}>Male</option>
                                 <option value={1}>Female</option>
@@ -296,6 +306,7 @@ class ModalUser extends Component {
                             >
                                 <option value={1}>Admin</option>
                                 <option value={2}>Docter</option>
+                                <option value={3}>User</option>
                             </select>
                         </div>
                     </div>

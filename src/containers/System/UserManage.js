@@ -16,6 +16,7 @@ class UserManage extends Component {
         this.state = {
             arrUsers: [],
             editUser: {},
+            isOpenModalUser: false,
         };
 
     }
@@ -33,7 +34,7 @@ class UserManage extends Component {
             this.setState({
                 arrUsers: response.users,
                 isOpenModalUser: false
-            })
+            }, console.log(response.users))
         }
     }
 
@@ -80,31 +81,54 @@ class UserManage extends Component {
         }
     }
 
+    checkValidateInput = () => {
+        let isValid = true;
+        let arrSkip = ['roleId', 'image', 'positionId', 'gender',]
+        for (let key in this.state.editUser) {
+            if (!this.state.editUser[key] && !arrSkip.includes(key)) {
+                isValid = false;
+                alert(`nhập ${key}`);
+                console.log(key)
+                break;
+            }
+        }
+        return isValid
+    }
+
     handleOnchangeUpdateUser = async (event, id) => {
         let editUserCopy = { ...this.state.editUser }
-        editUserCopy[id] = event.target.value
+        if (id === 'gender') {
+            editUserCopy[id] = event.target.value
+        } else {
+            editUserCopy[id] = event.target.value
+        }
         this.setState({
             editUser: editUserCopy
-        })
+        }, () => console.log(this.state.editUser))
     }
+
 
     handleUpdateUser = async (user) => {
         try {
             let { arrUsers, editUser } = this.state;
             let checkLengEditUser = Object.keys(editUser).length === 0
-            if (!checkLengEditUser && user.id === editUser.id) {
+            let checkValidateInput = this.checkValidateInput()
+            if (!checkLengEditUser && user.id === editUser.id && checkValidateInput) {
+                console.log(editUser)
                 let response = await updateUserService(editUser)
                 if (response && response.errCode !== 0) {
                     alert(response.errMessage)
                 } else {
-                    let stateCopy = [...this.setState]
-                    let indexUserUpdate = stateCopy.findIndex(item => item.id === editUser.id)
-                    stateCopy[indexUserUpdate] = this.editUser
+                    let arrUsersCopy = [...arrUsers]
+                    let indexUserUpdate = arrUsersCopy.findIndex(item => item.id === editUser.id)
+                    arrUsersCopy[indexUserUpdate] = editUser
                     this.setState({
-                        arrUsers: stateCopy,
+                        arrUsers: arrUsersCopy,
                         editUser: {},
                     })
+                    return;
                 }
+
             }
 
             this.setState({
@@ -141,8 +165,6 @@ class UserManage extends Component {
     render() {
         let { arrUsers, editUser } = this.state;
         let checkLengEditUser = Object.keys(editUser).length === 0
-
-        console.log(editUser)
         return (
             <div className="users-container">
                 <ModalUser
@@ -169,12 +191,16 @@ class UserManage extends Component {
                                 <th>Email</th>
                                 <th>First name</th>
                                 <th>Last name</th>
+                                <th>Phone number</th>
                                 <th>Address</th>
+                                <th>Giới tính</th>
+                                <th>Quyền</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {arrUsers && arrUsers.map((item, index) => {
+                                let arrRole = ['Admin', 'Docter', 'User']
                                 return (
                                     <tr key={item.id}>
                                         {!checkLengEditUser && item.id === editUser.id ?
@@ -186,6 +212,22 @@ class UserManage extends Component {
                                                 {/* <td><input type='text' value={item.firstName} /></td> */}
                                                 <td><input type='text' value={editUser.lastName} onChange={(event) => this.handleOnchangeUpdateUser(event, 'lastName')} /></td>
                                                 <td><input type='text' value={editUser.address} onChange={(event) => this.handleOnchangeUpdateUser(event, 'address')} /></td>
+                                                <td><select name='gender'
+                                                    value={editUser.gender}
+                                                    onChange={(event) => { this.handleOnchangeUpdateUser(event, 'gender') }}
+                                                >
+                                                    <option value={0}>Male</option>
+                                                    <option value={1}>Female</option>
+                                                </select></td>
+                                                <td><select name='roleId'
+                                                    value={editUser.roleId}
+                                                    onChange={(event) => { this.handleOnchangeUpdateUser(event, 'roleId') }}
+                                                >
+                                                    <option value={1}>Admin</option>
+                                                    <option value={2}>Docter</option>
+                                                    <option value={3}>User</option>
+                                                </select>
+                                                </td>
                                             </>
                                             :
                                             <>
@@ -193,23 +235,40 @@ class UserManage extends Component {
                                                 <td>{item.email}</td>
                                                 <td>{item.firstName}</td>
                                                 <td>{item.lastName}</td>
+                                                <td>{item.phonenumber}</td>
                                                 <td>{item.address}</td>
+                                                <td>{item.gender == 1 ? 'Female' : 'Male'}</td>
+                                                <td>{arrRole.find((role, indexRole) => +item.roleId === indexRole + 1)}</td>
+
                                             </>
                                         }
                                         <td>
-                                            <button
-                                                className='btn-edit'
-                                                onClick={() => this.handleUpdateUser(item)}>
-                                                {!checkLengEditUser && item.id === editUser.id ? <i className="fas fa-save"></i> : <i className="fa fa-pencil-alt"></i>}
-                                            </button>
+
+                                            {!checkLengEditUser && item.id === editUser.id ?
+                                                <button
+                                                    className='btn-edit'
+                                                    onClick={() => this.handleUpdateUser(item)}
+                                                >
+                                                    <i className="fas fa-save"></i>
+                                                </button>
+                                                :
+                                                <>
+
+                                                    <button
+                                                        className='btn-edit'
+                                                        onClick={() => this.handleUpdateUser(item)}
+                                                    >
+                                                        <i className="fa fa-pencil-alt"></i>
+                                                    </button>
+                                                    <button className='btn-delete' onClick={() => this.handleDeleteUser(item)}><i className="fa fa-trash"></i></button>
+                                                </>
+                                            }
 
                                             {!checkLengEditUser && item.id === editUser.id ?
                                                 <button
                                                     className='btn-edit'
                                                     onClick={() => this.handleCancelUpdateUser(item)}><i className="fas fa-window-close"></i>
                                                 </button> : ''}
-
-                                            <button className='btn-delete' onClick={() => this.handleDeleteUser(item)}><i className="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
                                 )
