@@ -4,23 +4,34 @@ import { connect } from 'react-redux';
 import './UserManage.scss'
 import { getAllUsers, createNewUserService, deleteUserService, updateUserService } from '../../services/userService'
 import ModalUser from './ModalUser';
+import ModalConfirm from './ModalConfirm';
 import axios from 'axios';
 import { emitter } from '../../utils/emitter'; //nhập module events từ Node.js. Module này cung cấp một lớp EventEmitter để quản lý và phát các sự kiện (events).
 import { update } from 'lodash';
+import { dateFilter } from 'react-bootstrap-table2-filter';
 
 class UserManage extends Component {
 
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            arrUsers: [],
-            editUser: {},
-            isOpenModalUser: false,
-        };
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         arrUsers: [],
+    //         editUser: {},
+    //         isOpenModalUser: false,
+    //         isOpenModalConfirm: false,
+    //         dataConfirm: '',
+    //     };
 
-    }
+    // }
 
+    state = {
+        arrUsers: [],
+        editUser: {},
+        isOpenModalUser: false,
+        isOpenModalConfirm: false,
+        dataConfirm: '',
+    };
 
 
     async componentDidMount() {
@@ -33,8 +44,8 @@ class UserManage extends Component {
         if (response && response.errCode === 0) {
             this.setState({
                 arrUsers: response.users,
-                isOpenModalUser: false
-            }, console.log(response.users))
+                isOpenModalUser: false,
+            })
         }
     }
 
@@ -47,6 +58,12 @@ class UserManage extends Component {
     toggleUserModal = () => {
         this.setState({
             isOpenModalUser: !this.state.isOpenModalUser,
+        })
+    }
+
+    toggleConfirmModal = async () => {
+        this.setState({
+            isOpenModalConfirm: !this.state.isOpenModalConfirm,
         })
     }
 
@@ -114,7 +131,7 @@ class UserManage extends Component {
             let checkLengEditUser = Object.keys(editUser).length === 0
             let checkValidateInput = this.checkValidateInput()
             if (!checkLengEditUser && user.id === editUser.id && checkValidateInput) {
-                console.log(editUser)
+                // console.log(editUser)
                 let response = await updateUserService(editUser)
                 if (response && response.errCode !== 0) {
                     alert(response.errMessage)
@@ -140,19 +157,33 @@ class UserManage extends Component {
         }
     }
 
+    confirmModal = () => {
+        return new Promise((resolve, reject) => {
+            this.setState({
+                isOpenModalConfirm: true,
+                resolveModal: resolve,
+            })
+        })
+    }
 
     handleDeleteUser = async (userId) => {
         try {
+            // let dataConfirm = await this.confirmModal()
+            // console.log(dataConfirm)
+            // if (dataConfirm) {
             let response = await deleteUserService(userId.id)
             if (response && response.errCode !== 0) {
                 alert(response.errMessage)
             } else {
                 await this.getAllUsersFromReact()
             }
+            // }
+
         } catch (e) {
             console.log(e)
         }
     }
+
 
     handleCancelUpdateUser = async () => {
         this.setState({
@@ -167,6 +198,12 @@ class UserManage extends Component {
         let checkLengEditUser = Object.keys(editUser).length === 0
         return (
             <div className="users-container">
+                {/* <ModalConfirm
+                    isOpen={this.state.isOpenModalConfirm}
+                    toggleConfirmModal={this.toggleConfirmModal}
+                    confirmModal={this.confirmModal}
+
+                /> */}
                 <ModalUser
                     // truyền props cho file ModalUser
                     isOpen={this.state.isOpenModalUser}
@@ -206,10 +243,8 @@ class UserManage extends Component {
                                         {!checkLengEditUser && item.id === editUser.id ?
                                             <>
                                                 <td>{index + 1}</td>
-                                                {/* <input type='text' value={item.email} onChange={(event)=>this.handleOnchangeUpdateUser(event)}/> */}
                                                 <td>{item.email}</td>
                                                 <td><input type='text' value={editUser.firstName} onChange={(event) => this.handleOnchangeUpdateUser(event, 'firstName')} /></td>
-                                                {/* <td><input type='text' value={item.firstName} /></td> */}
                                                 <td><input type='text' value={editUser.lastName} onChange={(event) => this.handleOnchangeUpdateUser(event, 'lastName')} /></td>
                                                 <td><input type='text' value={editUser.address} onChange={(event) => this.handleOnchangeUpdateUser(event, 'address')} /></td>
                                                 <td><select name='gender'
@@ -243,7 +278,6 @@ class UserManage extends Component {
                                             </>
                                         }
                                         <td>
-
                                             {!checkLengEditUser && item.id === editUser.id ?
                                                 <button
                                                     className='btn-edit'

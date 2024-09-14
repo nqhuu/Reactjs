@@ -19,8 +19,8 @@ class ModalUser extends Component {
     //             lastName: '',
     //             address: '',
     //             phonenumber: '',
-    //             sex: '0',
-    //             role: '2'
+    //             gender: '0',
+    //             roleId: '3'
     //         }
     //     };
     //     this.listenToEmitter()
@@ -28,16 +28,16 @@ class ModalUser extends Component {
     // }
 
     state = {
-        arrUsers: {
-            email: '',
-            password: '',
-            firstName: '',
-            lastName: '',
-            address: '',
-            phonenumber: '',
-            sex: '0',
-            role: '2'
-        }
+        // arrUsers: {
+        email: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        address: '',
+        phonenumber: '',
+        gender: '0',
+        roleId: '3'
+        // }
     }
 
     listenToEmitter() {
@@ -49,8 +49,8 @@ class ModalUser extends Component {
                 lastName: '',
                 address: '',
                 phonenumber: '',
-                sex: '0',
-                role: '2'
+                gender: '0',
+                roleId: '3'
             })
         })
     }
@@ -68,7 +68,7 @@ class ModalUser extends Component {
             address: '',
             phonenumber: '',
             gender: '0',
-            role: '2'
+            roleId: '3'
         })
     }
 
@@ -87,7 +87,7 @@ class ModalUser extends Component {
              * Dấu ngoặc vuông [] cho phép bạn sử dụng giá trị của biến hoặc kết quả của biểu thức làm tên thuộc tính trong một đối tượng
              */
             [id]: event.target.value
-        })
+        }, () => { console.log(this.state) })
         // console.log(this.state)
     }
 
@@ -300,9 +300,9 @@ class ModalUser extends Component {
                         </div>
                         <div className='input-container'>
                             <label>Role</label>
-                            <select name='role'
-                                onChange={(event) => { this.handleOnChangeInput(event, 'role') }}
-                                value={this.state.role}
+                            <select name='roleId'
+                                onChange={(event) => { this.handleOnChangeInput(event, 'roleId') }}
+                                value={this.state.roleId}
                             >
                                 <option value={1}>Admin</option>
                                 <option value={2}>Docter</option>
