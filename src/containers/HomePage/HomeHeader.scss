@@ -1,6 +1,6 @@
 .home-header-container {
     height: 60px;
-    border: 1px solid red;
+    // border: 1px solid red;
     width: 100%;
     // background-color: grey;
     padding: 0 20px;
@@ -12,14 +12,14 @@
 
         .left-content {
             width: 25%;
-            border: 1px solid blue;
+            // border: 1px solid blue;
             display: flex;
             align-items: center;
 
             .header-logo {
                 background: url('../../assets/images/bookingcare-2020.svg') center center no-repeat;
-                height: 100%;
-                width: 65%;
+                height: 60%;
+                width: 45%;
                 cursor: pointer;
 
             }
@@ -44,10 +44,59 @@
 
         .right-content {
             width: 25%;
-            border: 1px solid blue;
+            // border: 1px solid blue;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-end;
+
+            .support {
+                padding-right: 50px;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+
+
+                span {
+                    font-size: 15px;
+                    margin-left: 15px;
+                }
+            }
+
+            .language-vi {
+                cursor: pointer;
+                margin-right: 15px;
+                opacity: 0.3;
+
+                &.active {
+                    opacity: 1;
+
+                    span {
+                        color: orange;
+                    }
+                }
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+
+            .language-en {
+                cursor: pointer;
+                opacity: 0.3;
+
+                &.active {
+                    opacity: 1;
+
+                    span {
+                        color: blue;
+
+                    }
+                }
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
         }
     }
 }
@@ -61,11 +110,15 @@
     background-position: center;
     display: flex;
     flex-direction: column;
+    opacity: 0.91;
 
     .content-up {
-        border: 1px solid red;
-        height: 50%;
+        // border: 1px solid red;
+        background-image: linear-gradient(rgba(126, 126, 126, 0.25), rgba(255, 255, 255, 0.1));
+        height: 65%;
         padding-top: 30px;
+        opacity: 0.91;
+
 
         .title1 {
             color: white;
@@ -110,8 +163,12 @@
     }
 
     .content-down {
-        border: 1px solid rgb(0, 9, 128);
-        height: 50%;
+        // border: 1px solid rgb(0, 9, 128);
+        height: 35%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.9));
 
 
         .options {
@@ -122,7 +179,7 @@
             justify-content: center;
 
             .option-child {
-                border: 1px solid red;
+                // border: 1px solid red;
                 width: 125px;
                 // text-align: center;
 
@@ -135,6 +192,7 @@
                     text-align: center;
                     margin: 0 auto;
                     color: #49bce2;
+                    font-size: 18px;
 
                 }
 
