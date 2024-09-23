@@ -35,6 +35,7 @@
     "redux-persist": "^5.10.0",
     "redux-state-sync": "^2.1.0",
     "redux-thunk": "^2.3.0",
+    "slick-carousel": "^1.8.1",
     "typescript": "^4.3.2"
   },
   "scripts": {
