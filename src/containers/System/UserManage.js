@@ -246,6 +246,7 @@ class UserManage extends Component {
                                                 <td>{item.email}</td>
                                                 <td><input type='text' value={editUser.firstName} onChange={(event) => this.handleOnchangeUpdateUser(event, 'firstName')} /></td>
                                                 <td><input type='text' value={editUser.lastName} onChange={(event) => this.handleOnchangeUpdateUser(event, 'lastName')} /></td>
+                                                <td><input type='text' value={editUser.phonenumber} onChange={(event) => this.handleOnchangeUpdateUser(event, 'phonenumber')} /></td>
                                                 <td><input type='text' value={editUser.address} onChange={(event) => this.handleOnchangeUpdateUser(event, 'address')} /></td>
                                                 <td><select name='gender'
                                                     value={editUser.gender}

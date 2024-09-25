@@ -1,13 +1,10 @@
-
-
-
 .slick-prev {
-    left      : -10 !important;
-    z-index   : 1000 !important;
-    height    : 48px !important;
-    width     : 44px !important;
+    left: -10 !important;
+    z-index: 1000 !important;
+    height: 48px !important;
+    width: 44px !important;
     background: #fff !important;
-    border    : 2px solid #d7d7d7 !important;
+    border: 2px solid #d7d7d7 !important;
 
     &:hover {
         background: #eceaea !important;
@@ -17,16 +14,16 @@
 .slick-next::before,
 .slick-prev::before {
     font-family: fontAwesome !important;
-    color      : red !important;
+    color: red !important;
 }
 
 .slick-next {
-    right     : -10 !important;
-    z-index   : 1000 !important;
-    height    : 48px !important;
-    width     : 44px !important;
+    right: -10 !important;
+    z-index: 1000 !important;
+    height: 48px !important;
+    width: 44px !important;
     background: #fff !important;
-    border    : 2px solid #d7d7d7 !important;
+    border: 2px solid #d7d7d7 !important;
 
     &:hover {
         background: #eceaea !important;
@@ -36,11 +33,18 @@
 
 
 .section-share {
-    &.section-specialty{
-    background: #f5f5f5;
+    &.section-specialty {
+        background: #f5f5f5;
     }
+
     &.section-outstanding-doctor {
         background: #f5f5f5;
+    }
+
+    &.section-about {
+        border: 1px solid rebeccapurple;
+        height: 500px !important;
+
     }
 
     .section-body {
@@ -66,7 +70,7 @@
                     width: 120px;
                     height: 120px;
                     border-radius: 50%;
-                    
+
                 }
 
                 &.section-handbook {
@@ -85,33 +89,33 @@
         display: flex;
         flex-direction: column;
 
-            .section-header {
-                height: 60px;
-                margin-bottom: 30px;
-                padding-top: 30px;
+        .section-header {
+            height: 60px;
+            margin-bottom: 30px;
+            padding-top: 30px;
 
-                    .title-section {
-                        font-size: 22px;
-                        font-weight: 600;
-                    }
+            .title-section {
+                font-size: 22px;
+                font-weight: 600;
+            }
 
-                    .btn-section {
-                        float: right;
-                        padding: 10px 15px;
-                        border: none;
-                        outline: none;
-                        display: block;
-                        background: #ebebeb;
-                        color: black;
-                        cursor: pointer;
-                        text-transform: uppercase;
+            .btn-section {
+                float: right;
+                padding: 10px 15px;
+                border: none;
+                outline: none;
+                display: block;
+                background: #ebebeb;
+                color: black;
+                cursor: pointer;
+                text-transform: uppercase;
 
-                        &:hover {
-                            color: #fff;
-                            background: #f7d800;
-                        }
-                    }
-                 }
+                &:hover {
+                    color: #fff;
+                    background: #f7d800;
+                }
+            }
+        }
     }
 }
 
@@ -126,7 +130,7 @@
     .section-customize {
         padding: 5px;
 
-        .customize-border{
+        .customize-border {
             border: 1px solid orange;
             padding: 20px;
         }
@@ -134,3 +138,38 @@
 }
 
 
+.home-footer {
+    text-align: center;
+    padding-top: 10px;
+
+    a {
+        text-decoration: unset;
+    }
+}
+
+.section-about {
+
+    padding: 0 100px;
+
+    .section-about-header {
+
+        padding: 20px 10px;
+        font-size: 22px;
+        font-weight: 600;
+    }
+
+    .section-about-content {
+        display: flex;
+        gap: 15px;
+        width: 100%;
+
+        .content-left {
+            width: 50%;
+        }
+
+        .content-right {
+            width: 50%;
+        }
+    }
+
+}
