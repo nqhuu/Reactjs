@@ -8,7 +8,7 @@
     "@fortawesome/fontawesome-free-webfonts": "^1.0.9",
     "@popperjs/core": "^2.11.8",
     "axios": "^0.21.1",
-    "bootstrap": "^5.0.1",
+    "bootstrap": "^4.6.0",
     "connected-react-router": "^6.9.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.0",
