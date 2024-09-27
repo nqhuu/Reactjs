@@ -20,7 +20,6 @@ class HomeHeader extends Component {
     render() {
 
         let language = this.props.lang
-
         return (
             // <Redirect to={linkToRedirect} />
             <>
@@ -111,6 +110,7 @@ class HomeHeader extends Component {
 const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,
+        userInfo: state.user.userInfo,
         lang: state.app.language,
     };
 };

@@ -16,7 +16,14 @@ class About extends Component {
                 </div>
                 <div className='section-about-content'>
                     <div className='content-left'>
-                        <iframe width="100%" height="400" src="https://www.youtube.com/embed/DR8TAv6WMDE" title="Giới thiệu về cơ chế hoạt động của kính chống cháy cách nhiệt Hồng Phúc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <iframe
+                            width="100%" height="400"
+                            src="https://www.youtube.com/embed/DR8TAv6WMDE"
+                            title="Giới thiệu về cơ chế hoạt động của kính chống cháy cách nhiệt Hồng Phúc"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            allowFullScreen></iframe>
                     </div>
                     <div className='content-right'>
                         <p>

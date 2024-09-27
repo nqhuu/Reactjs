@@ -17,13 +17,22 @@ const persistCommonConfig = {
 
 const userPersistConfig = {
     ...persistCommonConfig,
-    key: 'user',
-    whitelist: ['isLoggedIn', 'userInfo']
+    key: 'user', // tên để chỉ định nơi lưu trữ dữ liệu của Redux store trong Redux Persist.
+    whitelist: ['isLoggedIn', 'userInfo'] // các giữ liệu state được lưu
 };
+
+const appPersistConfig = {
+    ...persistCommonConfig,
+    key: 'app',
+    whitelist: ['language']
+}
+
 
 export default (history) => combineReducers({
     router: connectRouter(history),
     // admin: persistReducer(adminPersistConfig, adminReducer),
-    user: persistReducer(userPersistConfig, userReducer), //sử dụng persistReducer lưu vào local store
-    app: appReducer
+    user: persistReducer(userPersistConfig, userReducer),
+    //sử dụng persistReducer lưu vào local store 
+    //lưu các giá trị của state userReducer với giá trị trong whitelist của userPersistConfig(cấu hình)
+    app: persistReducer(appPersistConfig, appReducer)
 })

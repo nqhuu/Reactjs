@@ -5,12 +5,19 @@ import * as actions from "../../store/actions";
 import Navigator from '../../components/Navigator';
 import { adminMenu } from './menuApp';
 import './Header.scss';
+import { LANGUAGES } from '../../utils'
+import { FormattedMessage } from 'react-intl';
 
 class Header extends Component {
 
-    render() {
-        const { processLogout } = this.props;
+    handleChangeLanguage = (language) => {
+        this.props.changeLanguageAppRedux(language)
 
+    }
+
+    render() {
+        const { processLogout, lang, userInfo } = this.props;
+        console.log('check user info ', userInfo)
         return (
             <div className="header-container">
                 {/* thanh navigator */}
@@ -18,9 +25,29 @@ class Header extends Component {
                     <Navigator menus={adminMenu} />
                 </div>
 
-                {/* nút logout */}
-                <div className="btn btn-logout" onClick={processLogout}>
-                    <i className="fas fa-sign-out-alt"></i>
+                <div className='languages'>
+                    <span className='welcome'>
+                        <FormattedMessage id="home-header.welcome" />, {userInfo && userInfo.lastName ? userInfo.lastName : ''}
+                    </span>
+                    <span
+                        className={lang === LANGUAGES.VI ? 'language-vi active' : 'language-vi'}
+                        onClick={() => this.handleChangeLanguage(LANGUAGES.VI)}
+                    >
+                        VN
+                    </span>
+                    <span
+                        className={lang === LANGUAGES.EN ? 'language-en active' : 'language-en'}
+                        onClick={() => this.handleChangeLanguage(LANGUAGES.EN)}
+                    >
+                        EN
+                    </span>
+
+                    {/* nút logout */}
+                    <div title='logout' className="btn btn-logout" onClick={processLogout}>
+
+                        <i className="fas fa-sign-out-alt"></i>
+
+                    </div>
                 </div>
             </div>
         );
@@ -30,13 +57,16 @@ class Header extends Component {
 
 const mapStateToProps = state => {
     return {
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn,
+        lang: state.app.language,
+        userInfo: state.user.userInfo,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         processLogout: () => dispatch(actions.processLogout()),
+        changeLanguageAppRedux: (language) => dispatch(actions.changeLanguageApp(language))
     };
 };
 
