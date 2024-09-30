@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { getAllCodeService } from "../../../services/userService"
 import { LANGUAGES } from "../../../utils"
+import * as actions from "../../../store/actions"
 
 class UserRedux extends Component {
 
@@ -11,29 +12,44 @@ class UserRedux extends Component {
         this.state = {
             gender: [],
             role: [],
-            position: []
+            positions: []
         }
     }
 
     async componentDidMount() {
-        try {
-            let arr = ['gender', 'role', 'position']
-            for (let item of arr) {
-                let res = await getAllCodeService(item);
-                if (res && res.errCode === 0) {
-                    this.setState({
-                        [item]: res.data
-                    })
-                }
-            }
-        } catch (e) {
-            console.log(e)
+
+        this.props.getGenderStart()
+
+
+        // try { // gọi trực tiếp đến api 
+        //     let arr = ['gender', 'role', 'position']
+        //     for (let item of arr) {
+        //         let res = await getAllCodeService(item);
+        //         if (res && res.errCode === 0) {
+        //             this.setState({
+        //                 [item]: res.data
+        //             })
+        //         }
+        //     }
+        // } catch (e) {
+        //     console.log(e)
+        // }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        //render => didupdate
+        //hiện tại (this) và quá khứ (prev)
+        if (prevProps.genderRedux !== this.props.genderRedux) {
+            this.setState({
+                gender: this.props.genderRedux
+            })
         }
     }
 
-
     render() {
+        // console.log('actions', actions)
         let { gender, role, position } = this.state
+        // let gender = this.state.gender;
         console.log('check state', this.state)
         let language = this.props.language
         return (
@@ -110,7 +126,7 @@ class UserRedux extends Component {
                                 <input className='form-control' type='text' />
                             </div>
                             <div className='col-12 mt-3'>
-                                <button type='button' className='btn btn-primary'><FormattedMessage id='manage-user.save' /></button>
+                                <button type="button" className="btn btn-primary"><FormattedMessage id='manage-user.save' /></button>
                             </div>
                         </div>
                     </div>
@@ -123,13 +139,29 @@ class UserRedux extends Component {
 }
 
 const mapStateToProps = state => {
-    return {
+    let arr = ['gender', 'role', 'positions'];
+    let stateCopy = {};
+    // for (let item of arr) {
+    //     stateCopy[item] = state.admin[item];
+    //     console.log('stateCopy', stateCopy)
+    //     return ({
+    //         language: state.app.language,
+    //         // genderRedux: state.admin.gender
+    //         // item: state.admin.gender
+    //         ...stateCopy
+    //     });
+    // };
+    return ({
         language: state.app.language,
-    };
+        genderRedux: state.admin.gender
+    });
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => { // key dispatch là bắt buộc
     return {
+        getGenderStart: () => dispatch(actions.fetchGenderStart())
+        // processLogout: () => dispatch(actions.processLogout()),
+        // changeLanguageAppRedux: (language) => dispatch(actions.changeLanguageApp(language))
     };
 };
 

@@ -1,33 +1,45 @@
 import actionTypes from '../actions/actionTypes';
 
-const initialState = {
-    isLoggedIn: false,
-    adminInfo: null
+const initContentOfConfirmModal = {
+    isOpen: false,
+    messageId: "",
+    handleFunc: null,
+    dataFunc: null
 }
 
-const appReducer = (state = initialState, action) => {
+const initialState = {
+    gender: [],
+    role: [],
+    positions: []
+}
+
+const adminReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.ADMIN_LOGIN_SUCCESS:
+        case actionTypes.FETCH_GENDER_START:
+            // console.log('fire fetch gender start', action)
             return {
                 ...state,
-                isLoggedIn: true,
-                adminInfo: action.adminInfo
             }
-        case actionTypes.ADMIN_LOGIN_FAIL:
+        case actionTypes.FETCH_GENDER_SUCCESS:
+            // console.log('fire fetch gender SUCCESS', action)
+            // let arr = ['gender', 'role', 'positions'];
+            let copyState = { ...state };
+            // for (let item of arr) {
+            //     if (item === action.data.type) {
+            //         copyState[item] = action.data
+            //     }
+            // }
+            copyState.gender = action.data
             return {
-                ...state,
-                isLoggedIn: false,
-                adminInfo: null
+                ...copyState,
             }
-        case actionTypes.PROCESS_LOGOUT:
+        case actionTypes.FETCH_GENDER_FAIDED:
             return {
                 ...state,
-                isLoggedIn: false,
-                adminInfo: null
             }
         default:
             return state;
     }
 }
 
-export default appReducer;
+export default adminReducer;
