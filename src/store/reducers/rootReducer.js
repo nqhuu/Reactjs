@@ -29,7 +29,6 @@ const appPersistConfig = {
 
 export default (history) => combineReducers({
     router: connectRouter(history),
-    // admin: persistReducer(adminPersistConfig, adminReducer),
     user: persistReducer(userPersistConfig, userReducer),
     //sử dụng persistReducer lưu vào local store 
     //lưu các giá trị của state userReducer với giá trị trong whitelist của userPersistConfig(cấu hình)

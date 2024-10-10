@@ -8,32 +8,52 @@ const initContentOfConfirmModal = {
 }
 
 const initialState = {
+    isLoadingGender: false,
     gender: [],
     role: [],
-    positions: []
+    position: []
 }
 
 const adminReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_GENDER_START:
-            // console.log('fire fetch gender start', action)
-            return {
-                ...state,
-            }
-        case actionTypes.FETCH_GENDER_SUCCESS:
-            // console.log('fire fetch gender SUCCESS', action)
-            // let arr = ['gender', 'role', 'positions'];
             let copyState = { ...state };
-            // for (let item of arr) {
-            //     if (item === action.data.type) {
-            //         copyState[item] = action.data
-            //     }
-            // }
-            copyState.gender = action.data
+            copyState.isLoadingGender = true;
+            // console.log('fire fetch gender start', action)
+
             return {
                 ...copyState,
             }
+        case actionTypes.FETCH_GENDER_SUCCESS:
+
+            state.gender = action.data
+            state.isLoadingGender = false;
+            return {
+                ...state,
+            }
         case actionTypes.FETCH_GENDER_FAIDED:
+            state.isLoadingGender = false;
+            state.gender = [];
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_POSITION_SUCCESS:
+            state.position = action.data
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_POSITION_FAIDED:
+            state.position = [];
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_ROLE_SUCCESS:
+            state.role = action.data
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_ROLE_FAIDED:
+            state.role = [];
             return {
                 ...state,
             }
