@@ -11,6 +11,6 @@ export const setContentOfConfirmModal = (contentOfConfirmModal) => ({
 });
 
 export const changeLanguageApp = (languageInput) => ({
-    type: actionTypes.CHANGE_LANGUAGE, // đây là action chuyển tới redux, từ khóa tyoe là bắt buộc
+    type: actionTypes.CHANGE_LANGUAGE, // đây là action chuyển tới redux, từ khóa type là bắt buộc
     language: languageInput // đây là dữ liệu truyền kèm theo
 })

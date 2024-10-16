@@ -237,7 +237,7 @@ class UserManage extends Component {
                         </thead>
                         <tbody>
                             {arrUsers && arrUsers.map((item, index) => {
-                                let arrRole = ['Admin', 'Docter', 'User']
+                                let arrRole = ['Admin', 'Docter', 'Patient']
                                 return (
                                     <tr key={item.id}>
                                         {!checkLengEditUser && item.id === editUser.id ?
@@ -252,16 +252,17 @@ class UserManage extends Component {
                                                     value={editUser.gender}
                                                     onChange={(event) => { this.handleOnchangeUpdateUser(event, 'gender') }}
                                                 >
-                                                    <option value={0}>Male</option>
-                                                    <option value={1}>Female</option>
+                                                    <option value={'M'}>Male</option>
+                                                    <option value={'F'}>Female</option>
+                                                    <option value={'O'}>Other</option>
                                                 </select></td>
                                                 <td><select name='roleId'
                                                     value={editUser.roleId}
                                                     onChange={(event) => { this.handleOnchangeUpdateUser(event, 'roleId') }}
                                                 >
-                                                    <option value={1}>Admin</option>
-                                                    <option value={2}>Docter</option>
-                                                    <option value={3}>User</option>
+                                                    <option value={'R1'}>Admin</option>
+                                                    <option value={'R2'}>Docter</option>
+                                                    <option value={'R3'}>Patient</option>
                                                 </select>
                                                 </td>
                                             </>
@@ -273,8 +274,9 @@ class UserManage extends Component {
                                                 <td>{item.lastName}</td>
                                                 <td>{item.phonenumber}</td>
                                                 <td>{item.address}</td>
-                                                <td>{item.gender == 1 ? 'Female' : 'Male'}</td>
-                                                <td>{arrRole.find((role, indexRole) => +item.roleId === indexRole + 1)}</td>
+                                                <td>{item.gender == 'F' ? 'Female' : item.gender == 'M' ? 'Male' : 'Other'}</td>
+                                                <td>{item.roleId == 'R1' ? 'Admin' : item.gender == 'R2' ? 'Docter' : 'Patient'}</td>
+                                                {/* <td>{arrRole.find((role, indexRole) => +item.roleId === indexRole + 1)}</td> */}
 
                                             </>
                                         }
