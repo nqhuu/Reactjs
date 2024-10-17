@@ -49,6 +49,8 @@
         "position": "Chức danh",
         "role": "Vai trò",
         "image": "Ảnh đại diện",
-        "save": "Lưu"
+        "save": "Khởi tạo",
+        "edit": "Sửa",
+        "cancel": "Hủy"
     }
 }

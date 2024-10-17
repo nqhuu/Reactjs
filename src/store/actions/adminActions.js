@@ -1,5 +1,5 @@
 import actionTypes from './actionTypes';
-import { getAllCodeService, createNewUserService, getAllUsers, deleteUserService } from "../../services/userService";
+import { getAllCodeService, createNewUserService, getAllUsers, deleteUserService, updateUserService } from "../../services/userService";
 import { toast, ToastContainer } from 'react-toastify';
 
 
@@ -104,7 +104,7 @@ export const fetchRoleFailed = () => ({
 })
 
 
-
+// CREATE_NEW_USER
 export const createNewUser = (data) => {
     return async (dispatch, getState) => {
         try {
@@ -132,6 +132,37 @@ export const saveUserSuccess = () => ({
 
 export const saveUserFailed = () => ({
     type: actionTypes.CREATE_USER_FAILDED
+})
+
+
+// EDIT_A_USER
+export const EditAUser = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await updateUserService(data);
+            console.log('check res adminAction Edit', res, data)
+
+            if (res && res.errCode === 0) {
+                toast.success('Sửa người dùng thành công')
+                dispatch(editUserSuccess())
+                dispatch(fetchAllUserStart())
+            }
+            else {
+                dispatch(editUserFailed())
+            }
+        } catch (e) {
+            dispatch(saveUserFailed())
+            console.log('editUserFailed error', e)
+        }
+    }
+}
+
+export const editUserSuccess = () => ({
+    type: actionTypes.EDIT_USER_SUCCESS
+})
+
+export const editUserFailed = () => ({
+    type: actionTypes.EDIT_USER_FAILDED
 })
 
 // FETCH_ALL_USERS_SUCCESS
@@ -167,13 +198,13 @@ export const fetchAllUserFailed = () => ({
 // DELETE_USERS_SUCCESS
 
 
-export const handeleDeleteUserStart = (id) => {
+export const handeleDeleteUserStart = (user) => {
     return async (dispatch, getState) => {
         try {
-            let res = await deleteUserService(id)
-            console.log(res, id)
+            let res = await deleteUserService(user.id)
+            console.log(res, user)
             if (res && res.errCode === 0) {
-                toast.success('Xóa thành công tài khoản')
+                toast.success(`Xóa thành công tài khoản ${user.email}`)
                 dispatch(DeleteUserSuccess())
                 dispatch(fetchAllUserStart())
             }
