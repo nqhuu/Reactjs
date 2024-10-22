@@ -3,12 +3,15 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './TableManagerUser.scss'
 import * as actions from "../../../store/actions";
+import ModalConfirm from '../ModalConfirm';
 
 
 class TableManagerUser extends Component {
 
     state = {
-        userRedux: []
+        userRedux: [],
+        isOpenModalConfirm: false,
+        userDelete: '',
     };
 
 
@@ -22,13 +25,30 @@ class TableManagerUser extends Component {
                 userRedux: this.props.listUsers
             })
         }
+    }
 
 
+    toggleFromParent = () => {
+        this.setState({
+            isOpenModalConfirm: !this.state.isOpenModalConfirm
+        })
+    }
+
+    handleConfirmDeleteModal = async (confirm) => {
+        if (confirm) {
+            this.props.handleDeleteUserRedux(this.state.userDelete)
+            this.setState({
+                isOpenModalConfirm: false,
+            })
+        }
     }
 
     handleDeleteUser = (user) => {
-        console.log(user)
-        this.props.handeleDeleteUser(user)
+        this.setState({
+            isOpenModalConfirm: true,
+            userDelete: { ...user }
+        })
+
     }
 
     handleEditUser = (user) => {
@@ -36,12 +56,16 @@ class TableManagerUser extends Component {
     }
 
     render() {
-
-        console.log("check list User ", this.props.listUsers)
-        console.log("check list User state redux", this.state.userRedux)
         let arrUser = this.state.userRedux;
         return (
             <table id='TableManagerUser'>
+                <ModalConfirm
+                    isOpen={this.state.isOpenModalConfirm}
+                    toggleFromParent={this.toggleFromParent}
+                    handleConfirmDeleteModal={this.handleConfirmDeleteModal}
+                    userDelete={this.state.userDelete}
+                />
+
                 <thead>
                     <tr>
                         <th>STT</th>
@@ -108,7 +132,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchUserRedux: () => dispatch(actions.fetchAllUserStart()),
-        handeleDeleteUser: (user) => dispatch(actions.handeleDeleteUserStart(user))
+        handleDeleteUserRedux: (user) => dispatch(actions.handeleDeleteUserStart(user))
     };
 };
 

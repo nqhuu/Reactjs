@@ -173,7 +173,6 @@ class UserRedux extends Component {
     }
 
     handleCancelEditUser = () => {
-        console.log('check cancel')
         let arrGenders = this.props.genderRedux
         let arrPositions = this.props.positionRedux
         let arrRoles = this.props.roleRedux
@@ -358,7 +357,7 @@ class UserRedux extends Component {
                                         onChange={(event) => this.handleOnchangeImage(event)}
                                     />
                                     <label className='label-upload' htmlFor='previewImg'>Tải ảnh <i className="fas fa-upload"></i></label>
-                                    {/* <a href='file:///C:\Users\Admin\Downloads\anh.png'>test mở bằng ứng dụng máy tính</a> */}
+                                    {/* htmlFor='previewImg' sử dụng để giúp label liên kết với thẻ input có id = 'previewImg', khi click vào label thì thì sẻ mở lên hộp thoại của input với type là  file ngay cả khi input bị ẩn "hidden" */}
                                     <div className='preview-image'
                                         style={{ backgroundImage: `url(${this.state.previewImgURL})` }}
                                         onClick={() => this.openPreviewImage()}

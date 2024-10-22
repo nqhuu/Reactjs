@@ -7,6 +7,8 @@ import { toast, ToastContainer } from 'react-toastify';
 //     type: actionTypes.FETCH_GENDER_START
 // })
 
+
+/**Gender */
 export const fetchGenderStart = () => {
     return async (dispatch, getState) => {
         try {
@@ -38,11 +40,7 @@ export const fetchGenderFailed = () => ({
 
 
 
-
-
-
-
-
+/**Position  */
 export const fetchPositionStart = () => {
     return async (dispatch, getState) => {
         try {
@@ -72,10 +70,7 @@ export const fetchPositionFailed = () => ({
 
 
 
-
-
-
-
+/**Role */
 export const fetchRoleStart = () => {
     return async (dispatch, getState) => {
         try {
@@ -140,14 +135,18 @@ export const EditAUser = (data) => {
     return async (dispatch, getState) => {
         try {
             let res = await updateUserService(data);
-            console.log('check res adminAction Edit', res, data)
+            // console.log('check res adminAction Edit', res, data)
 
             if (res && res.errCode === 0) {
-                toast.success('Sửa người dùng thành công')
+                toast.success(`Sửa thành công người dùng có email ${data.email}`)
                 dispatch(editUserSuccess())
                 dispatch(fetchAllUserStart())
             }
-            else {
+            if (res && res.errCode === 2) {
+                toast.warning(`Bạn chưa sửa thông tin nào của người dùng có email ${data.email}`)
+                // dispatch(editUserSuccess())
+                // dispatch(fetchAllUserStart())
+            } else {
                 dispatch(editUserFailed())
             }
         } catch (e) {
@@ -204,7 +203,7 @@ export const handeleDeleteUserStart = (user) => {
             let res = await deleteUserService(user.id)
             console.log(res, user)
             if (res && res.errCode === 0) {
-                toast.success(`Xóa thành công tài khoản ${user.email}`)
+                toast.warning(`Xóa thành công tài khoản ${user.email}`)
                 dispatch(DeleteUserSuccess())
                 dispatch(fetchAllUserStart())
             }
