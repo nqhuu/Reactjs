@@ -1,5 +1,5 @@
 import actionTypes from './actionTypes';
-import { getAllCodeService, createNewUserService, getAllUsers, deleteUserService, updateUserService } from "../../services/userService";
+import { getAllCodeService, createNewUserService, getAllUsers, deleteUserService, updateUserService, fetchAllDoctor } from "../../services/userService";
 import { toast, ToastContainer } from 'react-toastify';
 
 
@@ -132,6 +132,7 @@ export const saveUserFailed = () => ({
 
 // EDIT_A_USER
 export const EditAUser = (data) => {
+    console.log('adminAction', data)
     return async (dispatch, getState) => {
         try {
             let res = await updateUserService(data);
@@ -142,12 +143,14 @@ export const EditAUser = (data) => {
                 dispatch(editUserSuccess())
                 dispatch(fetchAllUserStart())
             }
-            if (res && res.errCode === 2) {
+            if (res && res.errCode === 1) {
                 toast.warning(`Bạn chưa sửa thông tin nào của người dùng có email ${data.email}`)
                 // dispatch(editUserSuccess())
                 // dispatch(fetchAllUserStart())
-            } else {
+            }
+            if (res && res.errCode === 2) {
                 dispatch(editUserFailed())
+                toast.warning(`Không thể chỉnh sửa thông tin của người dùng có email ${data.email}`)
             }
         } catch (e) {
             dispatch(saveUserFailed())
@@ -170,7 +173,7 @@ export const fetchAllUserStart = () => {
     return async (dispatch, getState) => {
         try {
             let res = await getAllUsers('ALL')
-            console.log('getAllUsers', res)
+            // console.log('getAllUsers', res)
             if (res && res.errCode === 0) {
                 dispatch(fetchAllUserSuccess(res.users))
             }
@@ -201,7 +204,7 @@ export const handeleDeleteUserStart = (user) => {
     return async (dispatch, getState) => {
         try {
             let res = await deleteUserService(user.id)
-            console.log(res, user)
+            // console.log(res, user)
             if (res && res.errCode === 0) {
                 toast.warning(`Xóa thành công tài khoản ${user.email}`)
                 dispatch(DeleteUserSuccess())
@@ -219,4 +222,34 @@ export const DeleteUserSuccess = () => ({
 
 export const DeleteUserFailed = () => ({
     type: actionTypes.FETCH_ALL_USERS_SUCCESS
+})
+
+
+
+export const fetchTopDoctorfetchAllUserStart = (limit) => {
+    return async (dispatch, getState) => {
+        try {
+            // let limit = 10
+            let res = await fetchAllDoctor(limit)
+            console.log('fetchAllDoctor data', res)
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllTopDoctorSuccess(res.data))
+            }
+            else {
+                dispatch(fetchAllTopDoctorFailed())
+            }
+        } catch (e) {
+            dispatch(fetchAllTopDoctorFailed())
+            console.log('fetchTopDoctor error', e)
+        }
+    }
+}
+
+export const fetchAllTopDoctorSuccess = (data) => ({
+    type: actionTypes.FETCH_TOP_DOCTOR_SUCCESS,
+    users: data
+})
+
+export const fetchAllTopDoctorFailed = () => ({
+    type: actionTypes.FETCH_TOP_DOCTOR_FAILDED,
 })

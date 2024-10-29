@@ -41,6 +41,7 @@ const reduxStore = createStore(
     composeEnhancers(applyMiddleware(...middleware)),
 )
 
+
 export const dispatch = reduxStore.dispatch;
 
 export const persistor = persistStore(reduxStore);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl'; // thực hiện chuyển đổi ngôn ngữ ứng dụng
 import { connect } from 'react-redux';
 // import { getAllCodeService } from "../../../services/userService"
-import { LANGUAGES, CRUD_ACTIONS } from "../../../utils";
+import { LANGUAGES, CRUD_ACTIONS, CommonUtils } from "../../../utils";
 import * as actions from "../../../store/actions";
 import './UserRedux.scss';
 import Lightbox from 'react-image-lightbox'; // thư viện giúp phóng to ảnh được input
@@ -66,7 +66,7 @@ class UserRedux extends Component {
             let arrGenders = this.props.genderRedux
             this.setState({
                 genderArr: arrGenders,
-                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].key : '',
+                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].keyMap : '',
             })
 
         }
@@ -74,14 +74,14 @@ class UserRedux extends Component {
             let arrPositions = this.props.positionRedux
             this.setState({
                 positionArr: arrPositions,
-                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].key : ''
+                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : ''
             })
         }
         if (prevProps.roleRedux !== this.props.roleRedux) {
             let arrRoles = this.props.roleRedux
             this.setState({
                 roleArr: arrRoles,
-                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].key : ''
+                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : ''
             })
         }
 
@@ -97,28 +97,31 @@ class UserRedux extends Component {
                 lastName: '',
                 phoneNumber: '',
                 address: '',
-                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].key : '',
-                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].key : '',
-                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].key : '',
+                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].keyMap : '',
+                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : '',
+                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : '',
                 // gender: '',
                 // position: '',
                 // role: '',
                 avatar: '',
                 action: CRUD_ACTIONS.CREATE,
+                previewImgURL: '',
 
             })
         }
     }
 
 
-    handleOnchangeImage = (event) => {
+    handleOnchangeImage = async (event) => {
         let data = event.target.files;
         let file = data[0];
         if (file) {
+            let base64 = await CommonUtils.getBase64(file);
+            console.log('base64', base64)
             let objectUrl = URL.createObjectURL(file)
             this.setState({
                 previewImgURL: objectUrl,
-                avatar: file
+                avatar: base64
             })
             console.log('check file', objectUrl)
         }
@@ -151,6 +154,7 @@ class UserRedux extends Component {
                 roleId: this.state.role,
                 phonenumber: this.state.phoneNumber,
                 positionId: this.state.position,
+                avatar: this.state.avatar
             })
         }
 
@@ -165,9 +169,10 @@ class UserRedux extends Component {
                 roleId: this.state.role,
                 phonenumber: this.state.phoneNumber,
                 positionId: this.state.position,
+                id: this.state.id,
+                avatar: this.state.avatar,
                 action: CRUD_ACTIONS.CREATE,
-                id: this.state.id
-            }, () => console.log(this.state.id))
+            })
         }
         // fire redux action
     }
@@ -186,10 +191,11 @@ class UserRedux extends Component {
             gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].key : '',
             position: arrPositions && arrPositions.length > 0 ? arrPositions[0].key : '',
             role: arrRoles && arrRoles.length > 0 ? arrRoles[0].key : '',
-            gender: '',
-            position: '',
-            role: '',
+            // gender: '',
+            // position: '',
+            // role: '',
             avatar: '',
+            previewImgURL: '',
             action: CRUD_ACTIONS.CREATE,
         }, () => toast.info('Đã dừng sửa thông tin người dùng'))
     }
@@ -220,7 +226,12 @@ class UserRedux extends Component {
     }
 
     handleEditUserFromParent = (user) => {
-        console.log('handleEditUserFromParent userRedux  ', user)
+        // console.log('handleEditUserFromParent userRedux  ', user)
+        let imageBase64 = '';
+        if (user.image) {
+            imageBase64 = Buffer(user.image, 'base64').toString('binary');
+
+        }
         this.setState({
             email: user.email,
             password: 'password',
@@ -235,6 +246,7 @@ class UserRedux extends Component {
             // gender: '',
             // position: '',
             // role: '',
+            previewImgURL: imageBase64,
             avatar: '',
             action: CRUD_ACTIONS.EDIT
         })
@@ -260,7 +272,7 @@ class UserRedux extends Component {
                     <div className="container" >
                         <div className='row'>
                             <div className='col-12 mb-3'><FormattedMessage id='manage-user.add' /></div>
-                            <div className='col-12'>{isLoadingGender === true ? 'Loading ...' : ''}</div> {/* nếu isLoadingGender lấy từ redux về bằng true tuwcsc là quá trình lấy dữ liệu đang thực hiện và chưa xong, khi đó sẽ hiển thị lên thông báo Loading...*/}
+                            <div className='col-12'>{isLoadingGender === true ? 'Loading ...' : ''}</div> {/* nếu isLoadingGender lấy từ redux về bằng true tức là quá trình lấy dữ liệu đang thực hiện và chưa xong, khi đó sẽ hiển thị lên thông báo Loading...*/}
                             <div className='col-3'>
                                 <label><FormattedMessage id='manage-user.email' /></label>
                                 <input className='form-control' type='email'
@@ -314,7 +326,7 @@ class UserRedux extends Component {
                                     {genderArr && genderArr.length > 0 &&
                                         genderArr.map((item, index) => {
                                             return (
-                                                <option key={index} value={item.key}>{language === LANGUAGES.VI ? item.valueVi : item.valueEn}</option>
+                                                <option key={index} value={item.keyMap}>{language === LANGUAGES.VI ? item.valueVi : item.valueEn}</option>
                                             )
                                         })
                                     }
@@ -329,7 +341,7 @@ class UserRedux extends Component {
                                     {positionArr && positionArr.length > 0 &&
                                         positionArr.map((item, index) => {
                                             return (
-                                                <option key={index} value={item.key}>{language === LANGUAGES.VI ? item.valueVi : item.valueEn}</option>
+                                                <option key={index} value={item.keyMap}>{language === LANGUAGES.VI ? item.valueVi : item.valueEn}</option>
                                             )
                                         })
                                     }
@@ -344,7 +356,7 @@ class UserRedux extends Component {
                                     {roleArr && roleArr.length > 0 &&
                                         roleArr.map((item, index) => {
                                             return (
-                                                <option key={index} value={item.key}>{language === LANGUAGES.VI ? item.valueVi : item.valueEn}</option>
+                                                <option key={index} value={item.keyMap}>{language === LANGUAGES.VI ? item.valueVi : item.valueEn}</option>
                                             )
                                         })
                                     }

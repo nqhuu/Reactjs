@@ -114,19 +114,15 @@ class ModalConfirm extends Component {
 
 
     componentDidMount() {
-        console.log(this.props.userDelete)
+        // Thực thi ngay khi component được mount
+        // console.log('componentDidMount - userDelete:', this.props.userDelete);
     }
-
-
 
     toggle = () => {
         this.props.toggleFromParent(); //đảo ngược biến isOpenModalConfirm bên tableManagerUser.js
     }
 
-    componentDidMount() {
-        // Thực thi ngay khi component được mount
-        console.log('componentDidMount - userDelete:', this.props.userDelete);
-    }
+
 
     componentDidUpdate(prevProps) {
         // So sánh props hiện tại với props trước đó để xem có thay đổi hay không

@@ -83,8 +83,7 @@ class TableManagerUser extends Component {
                 <tbody>
                     {arrUser && arrUser.length > 0 &&
                         arrUser.map((item, index) => {
-                            let arrGender = ['M', 'L', 'O'];
-                            let arrRole = ['R1', 'R2', 'R3'];
+                            // let arrGender = ['M', 'L', 'O']; 
                             let arrPosition = ['Bác sĩ', 'Thạc sĩ', 'Tiến sĩ', 'Phó giáo sư', 'Giáo sư'];
                             return <tr key={index}>
                                 <td>{arrUser.length - index}</td>

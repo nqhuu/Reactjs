@@ -13,6 +13,7 @@ const initialState = {
     role: [],
     position: [],
     users: [],
+    topDoctor: [],
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -26,7 +27,7 @@ const adminReducer = (state = initialState, action) => {
                 ...copyState,
             }
         case actionTypes.FETCH_GENDER_SUCCESS:
-            console.log('action', action)
+            // console.log('action', action)
             state.gender = action.data
             state.isLoadingGender = false;
             return {
@@ -66,23 +67,22 @@ const adminReducer = (state = initialState, action) => {
             return {
                 ...state,
             }
-        case actionTypes.FETCH_ALL_USERS_SUCCESS:
+        case actionTypes.FETCH_ALL_USERS_FAILDED:
             state.users = [];
             return {
                 ...state,
             }
-
-        // case actionTypes.DELETE_USER_SUCCESS:
-        //     state.users = action.users;
-        //     state.users = copyUser.fillter(item => item.id !== action.users.id);
-        //     return {
-        //         ...state,
-        //     }
-        // case actionTypes.DELETE_USER_FAILDED:
-        //     let copyUser = this.state.users;
-        //     return {
-        //         ...state,
-        //     }
+        case actionTypes.FETCH_TOP_DOCTOR_SUCCESS:
+            state.topDoctor = action.users
+            console.log('action.users', action.users)
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_TOP_DOCTOR_FAILDED:
+            state.topDoctor = [];
+            return {
+                ...state,
+            }
         default:
             return state;
     }
