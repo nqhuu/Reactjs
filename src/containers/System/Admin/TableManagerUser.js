@@ -4,6 +4,24 @@ import { connect } from 'react-redux';
 import './TableManagerUser.scss'
 import * as actions from "../../../store/actions";
 import ModalConfirm from '../ModalConfirm';
+// /* markdown editer lite */ 
+import MarkdownIt from 'markdown-it';
+import MdEditor from 'react-markdown-editor-lite';
+// import style manually
+import 'react-markdown-editor-lite/lib/index.css';
+
+// Register plugins if required
+// MdEditor.use(YOUR_PLUGINS_HERE);
+
+// Initialize a markdown parser
+const mdParser = new MarkdownIt(/* Markdown-it options */);
+
+// Finish!
+function handleEditorChange({ html, text }) {
+    console.log('handleEditorChange', html, text);
+}
+
+
 
 
 class TableManagerUser extends Component {
@@ -58,64 +76,69 @@ class TableManagerUser extends Component {
     render() {
         let arrUser = this.state.userRedux;
         return (
-            <table id='TableManagerUser'>
-                <ModalConfirm
-                    isOpen={this.state.isOpenModalConfirm}
-                    toggleFromParent={this.toggleFromParent}
-                    handleConfirmDeleteModal={this.handleConfirmDeleteModal}
-                    userDelete={this.state.userDelete}
-                />
+            <>
+                <table id='TableManagerUser'>
+                    <ModalConfirm
+                        isOpen={this.state.isOpenModalConfirm}
+                        toggleFromParent={this.toggleFromParent}
+                        handleConfirmDeleteModal={this.handleConfirmDeleteModal}
+                        userDelete={this.state.userDelete}
+                    />
 
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Email</th>
-                        <th>First name</th>
-                        <th>Last name</th>
-                        <th>Phone number</th>
-                        <th>Address</th>
-                        <th>Giới tính</th>
-                        <th>Chức danh</th>
-                        <th>Quyền</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {arrUser && arrUser.length > 0 &&
-                        arrUser.map((item, index) => {
-                            // let arrGender = ['M', 'L', 'O']; 
-                            let arrPosition = ['Bác sĩ', 'Thạc sĩ', 'Tiến sĩ', 'Phó giáo sư', 'Giáo sư'];
-                            return <tr key={index}>
-                                <td>{arrUser.length - index}</td>
-                                {/* <td>{index + 1}</td> */}
-                                <td>{item.email}</td>
-                                <td>{item.firstName}</td>
-                                <td>{item.lastName}</td>
-                                <td>{item.phonenumber}</td>
-                                <td>{item.address}</td>
-                                <td>{item.gender === 'M' ? 'Nam' : item.gender === "F" ? 'Nữ' : 'Khác'}</td>
-                                <td>{arrPosition.find((itemPosition, indexPosition) => {
-                                    if ('P'.concat(indexPosition) === item.positionId) {
-                                        return itemPosition
-                                    }
-                                })}</td>
-                                <td>{item.roleId === 'R1' ? 'Quản trị' : item.roleId === "R2" ? "Bác Sĩ" : "Bệnh Nhân"}</td>
-                                <td>
-                                    <button
-                                        className='btn-edit'
-                                        onClick={() => this.handleEditUser(item)}
-                                    >
-                                        <i className="fa fa-pencil-alt"></i>
-                                    </button>
-                                    <button className='btn-delete' onClick={() => this.handleDeleteUser(item)}><i className="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        })
-                    }
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Email</th>
+                            <th>First name</th>
+                            <th>Last name</th>
+                            <th>Phone number</th>
+                            <th>Address</th>
+                            <th>Giới tính</th>
+                            <th>Chức danh</th>
+                            <th>Quyền</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {arrUser && arrUser.length > 0 &&
+                            arrUser.map((item, index) => {
+                                // let arrGender = ['M', 'L', 'O']; 
+                                let arrPosition = ['Bác sĩ', 'Thạc sĩ', 'Tiến sĩ', 'Phó giáo sư', 'Giáo sư'];
+                                return <tr key={index}>
+                                    <td>{arrUser.length - index}</td>
+                                    {/* <td>{index + 1}</td> */}
+                                    <td>{item.email}</td>
+                                    <td>{item.firstName}</td>
+                                    <td>{item.lastName}</td>
+                                    <td>{item.phonenumber}</td>
+                                    <td>{item.address}</td>
+                                    <td>{item.gender === 'M' ? 'Nam' : item.gender === "F" ? 'Nữ' : 'Khác'}</td>
+                                    <td>{arrPosition.find((itemPosition, indexPosition) => {
+                                        if ('P'.concat(indexPosition) === item.positionId) {
+                                            return itemPosition
+                                        }
+                                    })}</td>
+                                    <td>{item.roleId === 'R1' ? 'Quản trị' : item.roleId === "R2" ? "Bác Sĩ" : "Bệnh Nhân"}</td>
+                                    <td>
+                                        <button
+                                            className='btn-edit'
+                                            onClick={() => this.handleEditUser(item)}
+                                        >
+                                            <i className="fa fa-pencil-alt"></i>
+                                        </button>
+                                        <button className='btn-delete' onClick={() => this.handleDeleteUser(item)}><i className="fa fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            })
+                        }
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
+                {/* markdown editer lite */}
+                <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
+
+            </>
         );
     }
 

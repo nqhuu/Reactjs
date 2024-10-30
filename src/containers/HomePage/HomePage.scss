@@ -31,6 +31,10 @@
 }
 
 
+//Aane mũi tên next hoặc preview khi ở đầu hoặc cuối slide
+.slick-disabled {
+    display: none !important;
+}
 
 .section-share {
     &.section-specialty {

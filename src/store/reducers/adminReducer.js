@@ -74,7 +74,7 @@ const adminReducer = (state = initialState, action) => {
             }
         case actionTypes.FETCH_TOP_DOCTOR_SUCCESS:
             state.topDoctor = action.users
-            console.log('action.users', action.users)
+            // console.log('action.users', action.users)
             return {
                 ...state,
             }

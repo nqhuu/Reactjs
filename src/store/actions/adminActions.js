@@ -231,7 +231,7 @@ export const fetchTopDoctorfetchAllUserStart = (limit) => {
         try {
             // let limit = 10
             let res = await fetchAllDoctor(limit)
-            console.log('fetchAllDoctor data', res)
+            // console.log('fetchAllDoctor data', res)
             if (res && res.errCode === 0) {
                 dispatch(fetchAllTopDoctorSuccess(res.data))
             }
