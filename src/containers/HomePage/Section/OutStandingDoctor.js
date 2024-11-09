@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { FormattedMessage, injectIntl } from 'react-intl';
 import './MedicalFacility.scss';
 import Slider from "react-slick";
 import * as actions from "../../../store/actions";
-
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
+import { withRouter } from 'react-router-dom';
 
 
 class OutStandingDoctor extends Component {
@@ -28,12 +24,18 @@ class OutStandingDoctor extends Component {
         }
     }
 
+    handleViewDetailDoctor = (doctor) => {
+        // console.log('this.props.history===>>>>>', this.props.history)
+        console.log('doctor===>>>>>', doctor)
+        this.props.history.push(`/detail-doctor/${doctor.id}`)  //history là thuộc tính của withRouter
+    }
+
     render() {
         let { listDoctor } = this.state
 
         // console.log('listDoctor OutStandingDoctor ', listDoctor)
         return (
-            <div className='section-share section-outstanding-doctor' >
+            <div className='section-share section-outstanding-doctor'  >
                 <div className='section-container'>
                     <div className='section-header'>
                         <span className='title-section'>Bác sĩ nổi bật tuần qua</span>
@@ -48,7 +50,7 @@ class OutStandingDoctor extends Component {
                                         imageBase64 = Buffer(item.image, 'base64').toString('binary'); // chuyển đổi hình ảnh mã hóa từ base64 sang binary
                                     }
                                     return (
-                                        <div className='section-customize' key={index}>
+                                        <div className='section-customize' key={index} onClick={() => this.handleViewDetailDoctor(item)}>
                                             <div className='customize-border'>
                                                 <div className='outer-bg'>
                                                     {/* <div className='bg-image section-outstanding-doctor' /> */}
@@ -85,8 +87,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     let limit = 10;
     return {
-        fetchTopDoctorRedux: () => dispatch(actions.fetchTopDoctorfetchAllUserStart(limit)),
+        fetchTopDoctorRedux: () => dispatch(actions.fetchTopDoctorStart(limit)),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OutStandingDoctor);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OutStandingDoctor));

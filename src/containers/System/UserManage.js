@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
+// import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './UserManage.scss'
 import { getAllUsers, createNewUserService, deleteUserService, updateUserService } from '../../services/userService'
 import ModalUser from './ModalUser';
-import ModalConfirm from './ModalConfirm';
-import axios from 'axios';
+// import ModalConfirm from './ModalConfirm';
+// import axios from 'axios';
 import { emitter } from '../../utils/emitter'; //nhập module events từ Node.js. Module này cung cấp một lớp EventEmitter để quản lý và phát các sự kiện (events).
-import { update } from 'lodash';
-import { dateFilter } from 'react-bootstrap-table2-filter';
+// import { update } from 'lodash';
+// import { dateFilter } from 'react-bootstrap-table2-filter';
 
 class UserManage extends Component {
 

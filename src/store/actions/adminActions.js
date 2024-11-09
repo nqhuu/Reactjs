@@ -1,5 +1,10 @@
 import actionTypes from './actionTypes';
-import { getAllCodeService, createNewUserService, getAllUsers, deleteUserService, updateUserService, fetchAllDoctor } from "../../services/userService";
+import {
+    getAllCodeService, createNewUserService,
+    getAllUsers, deleteUserService, updateUserService,
+    fetchAllTopDoctor, fetchAllDoctor, createInforDoctorService,
+    DetailDoctorService
+} from "../../services/userService";
 import { toast, ToastContainer } from 'react-toastify';
 
 
@@ -226,11 +231,11 @@ export const DeleteUserFailed = () => ({
 
 
 
-export const fetchTopDoctorfetchAllUserStart = (limit) => {
+export const fetchTopDoctorStart = (limit) => {
     return async (dispatch, getState) => {
         try {
             // let limit = 10
-            let res = await fetchAllDoctor(limit)
+            let res = await fetchAllTopDoctor(limit)
             // console.log('fetchAllDoctor data', res)
             if (res && res.errCode === 0) {
                 dispatch(fetchAllTopDoctorSuccess(res.data))
@@ -252,4 +257,106 @@ export const fetchAllTopDoctorSuccess = (data) => ({
 
 export const fetchAllTopDoctorFailed = () => ({
     type: actionTypes.FETCH_TOP_DOCTOR_FAILDED,
+})
+
+
+
+
+export const fetchAllDoctorStart = () => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await fetchAllDoctor()
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllDoctorSuccess(res.data))
+            }
+            else {
+                dispatch(fetchAllDoctorFailed())
+            }
+        } catch (e) {
+            dispatch(fetchAllDoctorFailed())
+            console.log('fetchAllDoctor error', e)
+        }
+    }
+}
+
+export const fetchAllDoctorSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_DOCTOR_SUCCESS,
+    users: data
+})
+
+export const fetchAllDoctorFailed = () => ({
+    type: actionTypes.FETCH_ALL_DOCTOR_FAILDED,
+})
+
+
+//CREATE INFOR DOCTOR
+
+export const creteInforDoctor = (data) => {
+    // console.log('creteInforDoctor Data', data)
+    return async (dispatch, getState) => {
+        try {
+            if (data) {
+                let res = await createInforDoctorService(data);
+
+                if (res && res.errCode === 0) {
+                    toast.success(res.errMessage)
+                    dispatch(saveInforSuccess())
+                }
+                if (res && res.errCode === 1) {
+                    toast.success(res.errMessage)
+                    dispatch(saveInforSuccess())
+                }
+                // if (res && res.errCode === -2) {
+                //     toast.warning('Thông tin bác sĩ đã được tạo trước đó, bạn cần update nếu muốn chỉnh sửa lại thông tin bác sĩ')
+                //     dispatch(saveInforFailed())
+                // }
+                else {
+                    dispatch(saveInforFailed())
+                }
+            }
+
+        } catch (e) {
+            dispatch(saveInforFailed())
+            console.log('saveUserFailed error', e)
+        }
+    }
+}
+
+export const saveInforSuccess = () => ({
+    type: actionTypes.FETCH_CREATE_INFOR_DOCTOR_SUCCESS
+})
+
+export const saveInforFailed = () => ({
+    type: actionTypes.FETCH_CREATE_INFOR_DOCTOR_FAILDED
+})
+
+//VIEW DETAIL DOCTOR
+
+export const fetchDetailDoctorStart = (id) => {
+    // console.log('creteInforDoctor ===>', id)
+    return async (dispatch, getState) => {
+        try {
+            let res = await DetailDoctorService(id);
+            // console.log('fetchDetailDoctorStart res====>', res)
+            if (res && res.errCode === 0) {
+                dispatch(detailDoctorSuccess(res.data))
+            }
+            if (res && res.errCode === 1) {
+                dispatch(detailDoctorFailed())
+            }
+        } catch (e) {
+            dispatch(detailDoctorFailed())
+            console.log('saveUserFailed error', e)
+        }
+    }
+}
+
+export const detailDoctorSuccess = (data) => ({
+    type: actionTypes.FETCH_DETAIL_DOCTOR_SUCCESS,
+    detail: data
+
+})
+
+export const detailDoctorFailed = () => ({
+    type: actionTypes.FETCH_DETAIL_DOCTOR_FAILDED
 })

@@ -160,7 +160,8 @@ class ModalConfirm extends Component {
             >
                 <ModalBody>
                     <div style={{ textAlign: 'center' }}>
-                        {`Bạn có thực sự muốn xóa người dùng ${this.state.userDelete.email}`}
+                        {`Bạn có thực sự muốn thực hiện thao tác này `}
+                        {/* ${this.state.userDelete.email} */}
                     </div>
 
                 </ModalBody>

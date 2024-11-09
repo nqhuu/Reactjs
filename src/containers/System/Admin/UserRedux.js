@@ -8,7 +8,7 @@ import './UserRedux.scss';
 import Lightbox from 'react-image-lightbox'; // thư viện giúp phóng to ảnh được input
 import 'react-image-lightbox/style.css'; // This only needs to be imported once in your app
 import TableManagerUser from './TableManagerUser'
-import { act } from 'react-dom/test-utils';
+// import { act } from 'react-dom/test-utils';
 import { toast, ToastContainer } from 'react-toastify';
 
 

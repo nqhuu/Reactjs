@@ -1,11 +1,11 @@
 import actionTypes from '../actions/actionTypes';
 
-const initContentOfConfirmModal = {
-    isOpen: false,
-    messageId: "",
-    handleFunc: null,
-    dataFunc: null
-}
+// const initContentOfConfirmModal = {
+//     isOpen: false,
+//     messageId: "",
+//     handleFunc: null,
+//     dataFunc: null
+// }
 
 const initialState = {
     isLoadingGender: false,
@@ -14,6 +14,8 @@ const initialState = {
     position: [],
     users: [],
     topDoctor: [],
+    allDoctor: [],
+    detailDoctor: [],
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -82,6 +84,26 @@ const adminReducer = (state = initialState, action) => {
             state.topDoctor = [];
             return {
                 ...state,
+            }
+        case actionTypes.FETCH_ALL_DOCTOR_SUCCESS:
+            state.allDoctor = action.users
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_ALL_DOCTOR_FAILDED:
+            state.allDoctor = [];
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_DETAIL_DOCTOR_SUCCESS:
+            state.detailDoctor = action.detail
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_DETAIL_DOCTOR_FAILDED:
+            state.detailDoctor = [];
+            return {
+                ...state
             }
         default:
             return state;

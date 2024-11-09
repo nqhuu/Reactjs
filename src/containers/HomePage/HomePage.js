@@ -31,7 +31,7 @@ class HomePage extends Component {
         return (
             // <Redirect to={linkToRedirect} />
             <div>
-                <HomeHeader />
+                <HomeHeader isShowbaner={true} />
                 <Specialty settings={settings} />
                 <MedicalFacility settings={settings} />
                 <OutStandingDoctor settings={settings} />
