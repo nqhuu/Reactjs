@@ -158,6 +158,7 @@ class ManageDoctor extends Component {
                             onChange={this.handleChange}
                             // options={options}
                             options={this.buildDataInputSelect(allDoctor)}
+                            placeholder={'chọn bác sĩ'}
                         />
                     </div>
                     <div className='content-right'>

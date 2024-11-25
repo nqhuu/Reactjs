@@ -1,6 +1,5 @@
 .detail-doctor-container {
     margin: 0 200px;
-    // border: 1px solid red;
 
     .home-header {
         padding-bottom: 50px;
@@ -37,8 +36,25 @@
 
         .detail-bottom {
             padding-top: 50px;
+            background-color: #eceaea;
+
         }
 
+    }
+
+    .Schedule-doctor {
+        margin: 50px 0;
+        display: flex;
+        height: 200px;
+        // border: 1px solid red;
+
+        .content-left {
+            width: 50%;
+        }
+
+        .content-right {
+            width: 50%;
+        }
     }
 
 }

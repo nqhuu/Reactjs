@@ -3,9 +3,11 @@ import {
     getAllCodeService, createNewUserService,
     getAllUsers, deleteUserService, updateUserService,
     fetchAllTopDoctor, fetchAllDoctor, createInforDoctorService,
-    DetailDoctorService
+    DetailDoctorService, bulkCreateScheduleSevice, fetchScheduleDoctorService
 } from "../../services/userService";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
+
+// import Time from 'react-datepicker/dist/time';
 
 
 // export const fetchGenderStart = () => ({
@@ -234,9 +236,11 @@ export const DeleteUserFailed = () => ({
 export const fetchTopDoctorStart = (limit) => {
     return async (dispatch, getState) => {
         try {
+            // console.log('fetchAllDoctor data', limit)
+
             // let limit = 10
             let res = await fetchAllTopDoctor(limit)
-            // console.log('fetchAllDoctor data', res)
+            console.log('fetchAllDoctor data', res)
             if (res && res.errCode === 0) {
                 dispatch(fetchAllTopDoctorSuccess(res.data))
             }
@@ -359,4 +363,88 @@ export const detailDoctorSuccess = (data) => ({
 
 export const detailDoctorFailed = () => ({
     type: actionTypes.FETCH_DETAIL_DOCTOR_FAILDED
+})
+
+
+export const fetAllScheduleTime = () => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await getAllCodeService('TIME')
+            if (res && res.errCode === 0) {
+                dispatch(fetAllScheduleTimeSuccess(res.data))
+            }
+            if (res && res.errCode === 1) {
+                dispatch(fetAllScheduleTimeFaild())
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
+}
+
+export const fetAllScheduleTimeSuccess = (data) => ({
+    type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_SUCCESS,
+    data: data
+})
+
+export const fetAllScheduleTimeFaild = () => ({
+    type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_FAILDED,
+})
+
+
+export const bulkCreateSchedule = (data) => {
+    // console.log(data)
+    return async (dispatch, getState) => {
+        try {
+            let res = await bulkCreateScheduleSevice(data)
+            // console.log('bulkCreateSchedule', res)
+            if (res && res.errCode === 0) {
+                toast.success('Tạo lịch thành công')
+                dispatch(bulkCreateScheduleSuccess())
+            }
+            if (res && res.errCode === 1) {
+                dispatch(bulkCreateScheduleFaild())
+            }
+        } catch (e) {
+            console.log(e)
+            dispatch(bulkCreateScheduleFaild())
+
+        }
+    }
+}
+
+export const bulkCreateScheduleSuccess = () => ({
+    type: actionTypes.FETCH_BULK_CREATE_SCHEDULE_SUCCESS,
+})
+
+export const bulkCreateScheduleFaild = () => ({
+    type: actionTypes.FETCH_BULK_CREATE_SCHEDULE_FAILDED,
+})
+
+export const fetchScheduleDoctor = (date, doctorId) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await fetchScheduleDoctorService(date, doctorId)
+            // console.log('fetchScheduleDoctorService', res)
+            if (res && res.errCode === 0) {
+                // toast.success('Tạo lịch thành công')
+                dispatch(fetchScheduleDoctorSuccess(res.data))
+            }
+            if (res && res.errCode === 1) {
+                dispatch(fetchScheduleDoctorFaild())
+            }
+        } catch (e) {
+            console.log(e)
+            dispatch(fetchScheduleDoctorFaild())
+        }
+    }
+}
+
+export const fetchScheduleDoctorSuccess = (data) => ({
+    type: actionTypes.FETCH_SCHEDULE_DOCTOR_SUCCESS,
+    data: data
+})
+
+export const fetchScheduleDoctorFaild = () => ({
+    type: actionTypes.FETCH_SCHEDULE_DOCTOR_FAILDED,
 })

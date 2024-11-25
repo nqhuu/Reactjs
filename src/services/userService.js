@@ -1,4 +1,4 @@
-import { result } from 'lodash';
+// import { result } from 'lodash';
 import axios from '../axios'
 
 const handleLoginApi = (email, password) => {
@@ -9,9 +9,9 @@ const getAllUsers = (inputId) => {
     return axios.get(`/api/get-all-users?id=${inputId}`)
 }
 
-const editUser = (inputId) => {
-    return axios.put('/api/put-user', { inputId })
-}
+// const editUser = (inputId) => {
+//     return axios.put('/api/put-user', { inputId })
+// }
 
 const createNewUserService = (data) => {
     return axios.post('/api/create-new-user', data)
@@ -52,5 +52,22 @@ const DetailDoctorService = (id) => {
     return axios.get(`/api/get-detail-doctor-by-id?id=${id}`)
 }
 
+const bulkCreateScheduleSevice = data => {
+    // console.log('bulkCreateScheduleSevice', data)
+    return axios.post('/api/bulk-create-schedule', data)
+
+}
+
+const fetchScheduleDoctorService = (date, doctorId) => {
+    // console.log('fetchScheduleDoctorService', date)
+    return axios.get(`/api/get-schedule-doctor-by-id?doctorId=${doctorId}&date=${date}`)
+}
 // export default handleLoginApi;
-export { handleLoginApi, getAllUsers, createNewUserService, deleteUserService, updateUserService, getAllCodeService, fetchAllDoctor, fetchAllTopDoctor, createInforDoctorService, DetailDoctorService };
+export {
+    handleLoginApi, getAllUsers,
+    createNewUserService, deleteUserService,
+    updateUserService, getAllCodeService,
+    fetchAllDoctor, fetchAllTopDoctor,
+    createInforDoctorService, DetailDoctorService,
+    bulkCreateScheduleSevice, fetchScheduleDoctorService,
+};

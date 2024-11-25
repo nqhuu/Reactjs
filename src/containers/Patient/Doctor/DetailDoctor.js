@@ -4,15 +4,20 @@ import './DetailDoctor.scss';
 import actionTypes from '../../../store/actions/actionTypes';
 import * as actions from "../../../store/actions";
 import HomeHeader from "../../HomePage/HomeHeader"
+import DoctorSchedule from "./DoctorSchedule"
 
 class DetailDoctor extends Component {
 
     state = {
-        detailDoctor: []
+        detailDoctor: [],
+        detailDoctorId: -1,
     }
 
     async componentDidMount() {
         if (this.props.match && this.props.match.params && this.props.match.params.id) {
+            this.setState({
+                detailDoctorId: this.props.match.params.id
+            })
             this.props.fetchDetailDoctor(this.props.match.params.id)
         }
     }
@@ -23,12 +28,15 @@ class DetailDoctor extends Component {
                 detailDoctor: this.props.detailDoctor
             })
         }
+
+
+
     }
 
 
     render() {
         let { detailDoctor } = this.state
-        console.log('state detailDoctor', detailDoctor)
+        // console.log('state detailDoctor', detailDoctor)
         return (
             <>
                 <div className='detail-doctor-container'>
@@ -42,6 +50,7 @@ class DetailDoctor extends Component {
                             >
 
                             </div>
+
                             <div className='detail-top-right'>
                                 <div className='detail-right-up'>
                                     {/* đặt điều kiện để tránh việc db chưa trả lên dữ liệu thì sẽ bị lỗi ứng dụng */}
@@ -55,6 +64,15 @@ class DetailDoctor extends Component {
                                 </div>
                             </div>
                         </div>
+
+                        <div className='Schedule-doctor'>
+                            <div className='content-left'>
+                                <DoctorSchedule doctorId={this.state.detailDoctorId} />.
+                            </div>
+                            <div className='content-right'>DoctorSchedule</div>
+
+                        </div>
+
                         <div className='detail-bottom'>
                             <div>
                                 {detailDoctor && detailDoctor.Markdown && detailDoctor.Markdown.contentHTML ?

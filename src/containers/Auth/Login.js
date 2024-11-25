@@ -4,9 +4,9 @@ import { push } from "connected-react-router";
 // import * as actions from "../store/actions";
 import * as actions from "../../store/actions";
 import './Login.scss';
-import { FormattedMessage } from 'react-intl';
+// import { FormattedMessage } from 'react-intl';
 import { handleLoginApi } from '../../services/userService'
-import { userService } from '../../services';
+// import { userService } from '../../services';
 
 
 class Login extends Component {
@@ -61,6 +61,12 @@ class Login extends Component {
         }
     }
 
+    handleKeyDown = (event) => {
+        if (event.keyCode === 13 || event.key === "Enter") {
+            this.handleLogin()
+        }
+    }
+
     render() {
         return (
             <div className='login-background'>
@@ -88,7 +94,11 @@ class Login extends Component {
                             {this.state.errMessage}
                         </div>
                         <div className='col-12'>
-                            <button className='btn-login' onClick={() => { this.handleLogin() }}>
+                            <button
+                                className='btn-login'
+                                onClick={() => { this.handleLogin() }}
+                                onKeyDown={(event) => this.handleKeyDown(event)}
+                            >
                                 Login
                             </button>
                         </div>
