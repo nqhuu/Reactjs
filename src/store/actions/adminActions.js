@@ -448,3 +448,40 @@ export const fetchScheduleDoctorSuccess = (data) => ({
 export const fetchScheduleDoctorFaild = () => ({
     type: actionTypes.FETCH_SCHEDULE_DOCTOR_FAILDED,
 })
+///////////////////////////////////////////////////////////////////////////
+export const getRequiredDoctorInfor = () => {
+    return async (dispatch, getState) => {
+        try {
+            dispatch({ type: actionTypes.FETCH_REQUIRED_INFOR_DOCTOR_START }) // để phát đi 1 action báo hiệu quá trình lấy dữ liệu bắt đầu
+            let listPrice = await getAllCodeService('PRICE')
+            let listProvince = await getAllCodeService('PROVINCE')
+            let listPayment = await getAllCodeService('PAYMENT')
+            // let response = [listPrice, listProvince, listPayment]
+            let response = {
+                listPrice: listPrice.data,
+                listProvince: listProvince.data,
+                listPayment: listPayment.data
+            }
+
+            if (response && listPayment.errCode === 0 && listPrice.errCode === 0 && listProvince.errCode === 0) { //&& response.errCode === 0
+                // console.log(response)
+                dispatch(getRequiredDoctorInforSuccess(response))
+            }
+            else {
+                dispatch(getRequiredDoctorInforFailed())
+            }
+        } catch (e) {
+            dispatch(getRequiredDoctorInforFailed())
+            console.log('getRequiredDoctorInfor error', e)
+        }
+    }
+}
+
+export const getRequiredDoctorInforSuccess = (data) => ({
+    type: actionTypes.FETCH_REQUIRED_INFOR_DOCTOR_SUCCESS,
+    data: data
+})
+
+export const getRequiredDoctorInforFailed = () => ({
+    type: actionTypes.FETCH_REQUIRED_INFOR_DOCTOR_FAILDED,
+})

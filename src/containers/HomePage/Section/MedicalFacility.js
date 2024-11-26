@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { FormattedMessage, injectIntl } from 'react-intl';
+// import { FormattedMessage, injectIntl } from 'react-intl';
 import './MedicalFacility.scss';
 import Slider from "react-slick";
 

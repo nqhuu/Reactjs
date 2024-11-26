@@ -1,7 +1,7 @@
 // import { Modal } from 'bootstrap';  
-import { last, set } from 'lodash';
+// import { last, set } from 'lodash';
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
+// import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Modal, Button, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { emitter } from '../../utils/emitter'; //nhập module events từ Node.js. Module này cung cấp một lớp EventEmitter để quản lý và phát các sự kiện (events).

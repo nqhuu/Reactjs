@@ -4,10 +4,10 @@ import "./ManageSchedule.scss"
 import Select from 'react-select';
 import * as actions from "../../../store/actions";
 import DatePicker from "../../../components/Input/DatePicker";
-import moment from "moment";
+// import moment from "moment";
 import _ from 'lodash';
 import { toast } from "react-toastify";
-import { dateFormat } from "../../../utils";
+// import { dateFormat } from "../../../utils";
 
 
 class ManageSchedule extends Component {

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import "./DoctorSchedule.scss";
-import actionTypes from '../../../store/actions/actionTypes';
+// import actionTypes from '../../../store/actions/actionTypes';
 import * as actions from "../../../store/actions";
-import HomeHeader from "../../HomePage/HomeHeader";
+// import HomeHeader from "../../HomePage/HomeHeader";
 // import Select from 'react-select';
 import moment from 'moment'; // format date
 import localization from 'moment/locale/vi'; // moment sẽ format date theo tiếng việt
-import { withRouter } from 'react-router-dom/cjs/react-router-dom.min';
+// import { withRouter } from 'react-router-dom/cjs/react-router-dom.min';
 // muốn chuyển lại tiếng anh thì cần sử dụng locale('en') : moment(new Date()).locale('en').format("ddd" - DD/MM)
 
 class DoctorSchedule extends Component {

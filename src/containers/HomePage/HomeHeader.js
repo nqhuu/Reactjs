@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './HomeHeader.scss';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { LANGUAGES } from '../../utils'
 import { changeLanguageApp } from '../../store/actions/appActions';
 import { withRouter } from 'react-router-dom';

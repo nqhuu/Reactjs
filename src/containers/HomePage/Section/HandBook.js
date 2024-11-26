@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage, injectIntl } from 'react-intl';
+// import { FormattedMessage, injectIntl } from 'react-intl';
 import Slider from "react-slick";
 
 
