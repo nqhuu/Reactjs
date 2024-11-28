@@ -296,12 +296,11 @@ export const fetchAllDoctorFailed = () => ({
 //CREATE INFOR DOCTOR
 
 export const creteInforDoctor = (data) => {
-    // console.log('creteInforDoctor Data', data)
+    console.log('creteInforDoctor Data', data)
     return async (dispatch, getState) => {
         try {
             if (data) {
                 let res = await createInforDoctorService(data);
-
                 if (res && res.errCode === 0) {
                     toast.success(res.errMessage)
                     dispatch(saveInforSuccess())
@@ -341,7 +340,7 @@ export const fetchDetailDoctorStart = (id) => {
     return async (dispatch, getState) => {
         try {
             let res = await DetailDoctorService(id);
-            // console.log('fetchDetailDoctorStart res====>', res)
+            console.log('fetchDetailDoctorStart res====>', res)
             if (res && res.errCode === 0) {
                 dispatch(detailDoctorSuccess(res.data))
             }
