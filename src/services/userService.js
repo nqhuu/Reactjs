@@ -26,7 +26,6 @@ const deleteUserService = (userId) => {
 }
 
 const updateUserService = (editUser) => {
-    // console.log(editUser)
     return axios.put('/api/edit-user', { editUser })
 }
 
@@ -43,26 +42,27 @@ const fetchAllDoctor = () => {
 }
 
 const createInforDoctorService = (data) => {
-    // console.log('createInforDoctorService', data)
+    console.log('createInforDoctorService', data)
     return axios.post('/api/save-infor-doctor', data)
 }
 
 const DetailDoctorService = (id) => {
-    // console.log('DetailDoctorService', id)
     return axios.get(`/api/get-detail-doctor-by-id?id=${id}`)
 }
 
 const bulkCreateScheduleSevice = data => {
-    // console.log('bulkCreateScheduleSevice', data)
     return axios.post('/api/bulk-create-schedule', data)
 
 }
 
 const fetchScheduleDoctorService = (date, doctorId) => {
-    // console.log('fetchScheduleDoctorService', date)
     return axios.get(`/api/get-schedule-doctor-by-id?doctorId=${doctorId}&date=${date}`)
 }
-// export default handleLoginApi;
+
+const getExtraInforDoctorByIdService = (doctorId) => {
+    return axios.get(`/api/get-extra-infor-doctor-by-id?doctorId=${doctorId}`)
+}
+
 export {
     handleLoginApi, getAllUsers,
     createNewUserService, deleteUserService,
@@ -70,4 +70,5 @@ export {
     fetchAllDoctor, fetchAllTopDoctor,
     createInforDoctorService, DetailDoctorService,
     bulkCreateScheduleSevice, fetchScheduleDoctorService,
+    getExtraInforDoctorByIdService,
 };

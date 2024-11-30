@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import "./DoctorSchedule.scss";
-// import actionTypes from '../../../store/actions/actionTypes';
 import * as actions from "../../../store/actions";
-// import HomeHeader from "../../HomePage/HomeHeader";
-// import Select from 'react-select';
 import moment from 'moment'; // format date
 import localization from 'moment/locale/vi'; // moment sẽ format date theo tiếng việt
-// import { withRouter } from 'react-router-dom/cjs/react-router-dom.min';
 // muốn chuyển lại tiếng anh thì cần sử dụng locale('en') : moment(new Date()).locale('en').format("ddd" - DD/MM)
 
 class DoctorSchedule extends Component {
@@ -26,10 +22,8 @@ class DoctorSchedule extends Component {
     async componentDidMount() {
 
         let allDays = this.getArrDays()
-        // let doctorId = this.props.doctorId
         this.setState({
             allDays: allDays,
-            // doctorId: doctorId,
         })
 
     }
@@ -54,7 +48,7 @@ class DoctorSchedule extends Component {
             let object = {};
             if (i === 0) {
                 let ddmm = moment(new Date()).add(i, 'days').format('DD/MM');
-                let today = 'Hôm nay' + '-' + ddmm
+                let today = 'Hôm nay' + ' - ' + ddmm
                 object.label = today;
             } else {
                 let lableVi = moment(new Date()).add(i, 'days').format('dddd - DD/MM');
@@ -71,8 +65,6 @@ class DoctorSchedule extends Component {
 
 
     handleOnchangeSelectScheduke = (event) => {
-        // console.log('handleOnchangeSelectScheduke', event.target.value)
-        // console.log('handleOnchangeSelectScheduke id', this.props.doctorId)
         let date = event.target.value
         let doctorId = this.props.doctorId
         if (doctorId && doctorId !== -1) {
@@ -83,7 +75,6 @@ class DoctorSchedule extends Component {
 
     render() {
         let { allDays, schelduleDoctor } = this.state
-        // console.log('schelduleDoctor', schelduleDoctor)
         return (
 
             <div className='doctor-schedule-container'>

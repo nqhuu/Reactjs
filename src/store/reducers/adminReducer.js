@@ -99,6 +99,7 @@ const adminReducer = (state = initialState, action) => {
                 ...state,
             }
         case actionTypes.FETCH_DETAIL_DOCTOR_SUCCESS:
+            // console.log('FETCH_DETAIL_DOCTOR_SUCCESS adminReducer', action.detail)
             state.detailDoctor = action.detail
             return {
                 ...state,

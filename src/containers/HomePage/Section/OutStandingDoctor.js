@@ -25,15 +25,12 @@ class OutStandingDoctor extends Component {
     }
 
     handleViewDetailDoctor = (doctor) => {
-        // console.log('this.props.history===>>>>>', this.props.history)
-        console.log('doctor===>>>>>', doctor)
         this.props.history.push(`/detail-doctor/${doctor.id}`)  //history là thuộc tính của withRouter
     }
 
     render() {
         let { listDoctor } = this.state
 
-        // console.log('listDoctor OutStandingDoctor ', listDoctor)
         return (
             <div className='section-share section-outstanding-doctor'  >
                 <div className='section-container'>

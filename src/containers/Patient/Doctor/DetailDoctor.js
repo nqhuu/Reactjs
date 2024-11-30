@@ -5,6 +5,7 @@ import actionTypes from '../../../store/actions/actionTypes';
 import * as actions from "../../../store/actions";
 import HomeHeader from "../../HomePage/HomeHeader"
 import DoctorSchedule from "./DoctorSchedule"
+import DoctorExtraInfor from "./DoctorExtraInfor"
 
 class DetailDoctor extends Component {
 
@@ -36,7 +37,7 @@ class DetailDoctor extends Component {
 
     render() {
         let { detailDoctor } = this.state
-        // console.log('state detailDoctor', detailDoctor)
+        // console.log('DetailDoctor', detailDoctor)
         return (
             <>
                 <div className='detail-doctor-container'>
@@ -69,7 +70,11 @@ class DetailDoctor extends Component {
                             <div className='content-left'>
                                 <DoctorSchedule doctorId={this.state.detailDoctorId} />.
                             </div>
-                            <div className='content-right'>DoctorSchedule</div>
+                            <div className='content-right'>
+                                <DoctorExtraInfor
+                                    doctorId={this.state.detailDoctorId}
+                                />
+                            </div>
 
                         </div>
 

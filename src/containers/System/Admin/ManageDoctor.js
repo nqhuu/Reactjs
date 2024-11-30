@@ -97,73 +97,47 @@ class ManageDoctor extends Component {
         const objCheck = {
             selectedOption, description, selectPrice, selectPayment, selectProvince, nameClinic, addressClinic, contentMarkdown, contentHtml
         }
+
+        //check rỗng, nếu tất cả rỗng sẽ trả về isEmpty = true
         let isEmpty = Object.keys(objCheck).find((item) => _.isEmpty(objCheck[item]))
         if (isEmpty) check = true
         return check
     }
 
-    checkmodify = () => {
-
-    }
-
 
     handleSaveContentMarkdown = async () => {
-        if (!this.state.hasOldData) {
-            if (this.checkIsEmpty()) {
-                toast.warning(`Nhập đủ các trường có dấu *`)
-            } else {
-                this.props.creteInforDoctor({
-                    contentHTML: this.state.contentHtml,
-                    contentMarkdown: this.state.contentMarkdown,
-                    description: this.state.description,
-                    doctorId: this.state.selectedOption.value,
-                    hasOldData: this.state.hasOldData,
-                    selectPrice: this.state.selectPrice.value,
-                    selectProvince: this.state.selectProvince.value,
-                    selectPayment: this.state.selectPayment.value,
-                    nameClinic: this.state.nameClinic,
-                    addressClinic: this.state.addressClinic,
-                    note: this.state.note,
-                })
-            }
+
+        let markDown = this.state.dbData
+        let doctorInfor = this.state.dbDoctorInfor
+        if (this.checkIsEmpty()) {
+            toast.warning('Bạn cần nhập đủ thông tin tất cả các trường có dấu *')
+            return
         }
 
-        if (this.state.hasOldData) {
-            let markDown = this.state.dbData
-            let doctorInfor = this.state.dbDoctorInfor
+        let currentState = [this.state.contentMarkdown, this.state.description, this.state.selectPrice.value, this.state.selectProvince.value, this.state.selectPayment.value,
+        this.state.nameClinic, this.state.addressClinic, this.state.note
+        ]
+        let dbState = [markDown.contentMarkdown, markDown.description, doctorInfor.priceId, doctorInfor.provinceId, doctorInfor.paymentId,
+        doctorInfor.nameClinic, doctorInfor.addressClinic, doctorInfor.note]
 
-            // console.log('dbCheck=>>>>>', Object.values(markDown))
-            // console.log('dbCheck=>>>>>', Object.values(doctorInfor))
-            if (this.checkIsEmpty()) {
-                toast.warning('Bạn cần nhập đủ thông tin tất cả các trường có dấu *')
-                return
-            }
-
-            // if (this.state.contentMarkdown !== markDown.contentMarkdown || this.state.description !== markDown.description) {
-            let currentState = [this.state.contentMarkdown, this.state.description, this.state.selectPrice.value, this.state.selectProvince.value, this.state.selectPayment.value,
-            this.state.nameClinic, this.state.addressClinic, this.state.note
-            ]
-            let dbState = [markDown.contentMarkdown, markDown.description, doctorInfor.priceId, doctorInfor.provinceId, doctorInfor.paymentId,
-            doctorInfor.nameClinic, doctorInfor.addressClinic, doctorInfor.note]
-
-            if (!_.isEqual(currentState, dbState)) {
-                this.props.creteInforDoctor({
-                    contentHTML: this.state.contentHtml,
-                    contentMarkdown: this.state.contentMarkdown,
-                    description: this.state.description,
-                    doctorId: this.state.selectedOption.value,
-                    hasOldData: this.state.hasOldData,
-                    selectPrice: this.state.selectPrice.value,
-                    selectProvince: this.state.selectProvince.value,
-                    selectPayment: this.state.selectPayment.value,
-                    nameClinic: this.state.nameClinic,
-                    addressClinic: this.state.addressClinic,
-                    note: this.state.note,
-                    historyText: this.state.historyText,
-                })
-            } else {
-                toast.warning('Bạn chưa cập nhật thông tin nào')
-            }
+        // So sánh xem các giá trị của state hiện tại có trùng hêt với giá trị lấy lên từ db thông qua redux hay không
+        if (!_.isEqual(currentState, dbState)) {
+            this.props.creteInforDoctor({
+                contentHTML: this.state.contentHtml,
+                contentMarkdown: this.state.contentMarkdown,
+                description: this.state.description,
+                doctorId: this.state.selectedOption.value,
+                hasOldData: this.state.hasOldData,
+                selectPrice: this.state.selectPrice.value,
+                selectProvince: this.state.selectProvince.value,
+                selectPayment: this.state.selectPayment.value,
+                nameClinic: this.state.nameClinic,
+                addressClinic: this.state.addressClinic,
+                note: this.state.note,
+                historyText: this.state.historyText,
+            })
+        } else {
+            toast.warning('Bạn chưa cập nhật thông tin nào')
         }
     }
 
@@ -177,7 +151,7 @@ class ManageDoctor extends Component {
         let selectPrice = '', selectProvince = '', selectPayment = ''
 
         let res = await DetailDoctorService(selectedOption.value);
-        console.log(res)
+        // console.log('handleChange', res)
         if (res && res.errCode === 0) {
             if (res.data.Markdown && res.data.Markdown.id) {
                 let markDown = res.data.Markdown
@@ -185,12 +159,20 @@ class ManageDoctor extends Component {
                     contentMarkdown: markDown.contentMarkdown,
                     contentHtml: markDown.contentHTML,
                     description: markDown.description,
-                    hasOldData: true,
                     dbData: markDown,
+                    hasOldData: true,
                 })
+            } else {
+                this.setState({
+                    contentMarkdown: '',
+                    contentHtml: '',
+                    description: '',
+                    hasOldData: false,
+                    dbData: '',
+                });
             }
             if (res.data.doctorInfor && res.data.doctorInfor.priceData.id && res.data.doctorInfor.provinceData.id && res.data.doctorInfor.paymentData.id) {
-                console.log(res.data.doctorInfor)
+                // console.log(res.data.doctorInfor)
                 let priceData = res.data.doctorInfor.priceData;
                 let provinceData = res.data.doctorInfor.provinceData;
                 let paymentData = res.data.doctorInfor.paymentData;
@@ -231,20 +213,12 @@ class ManageDoctor extends Component {
                 });
             }
 
-        } else {
-            this.setState({
-                contentMarkdown: '',
-                contentHtml: '',
-                description: '',
-                hasOldData: false,
-                dbData: '',
-            });
         }
     };
 
     handleChangeSelectDoctorInfor = (inputSelect, name) => {
         let nameSelect = name.name
-        console.log(inputSelect)
+        // console.log(inputSelect)
         this.setState({
             [nameSelect]: inputSelect
         })
@@ -344,9 +318,6 @@ class ManageDoctor extends Component {
 
                         />
                     </div>
-                    {/* nameClinic: '', */}
-                    {/* addressClinic: '', */}
-                    {/* note: '', */}
                     <div className='col-4 form-group'>
                         <label>Tên phòng khám (*)</label>
                         <input
