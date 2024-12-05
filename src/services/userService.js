@@ -42,7 +42,6 @@ const fetchAllDoctor = () => {
 }
 
 const createInforDoctorService = (data) => {
-    console.log('createInforDoctorService', data)
     return axios.post('/api/save-infor-doctor', data)
 }
 

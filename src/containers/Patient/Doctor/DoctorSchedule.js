@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import "./DoctorSchedule.scss";
 import * as actions from "../../../store/actions";
+import BookingModal from "../Doctor/Modal/BookingModal"
 import moment from 'moment'; // format date
 import localization from 'moment/locale/vi'; // moment sẽ format date theo tiếng việt
 // muốn chuyển lại tiếng anh thì cần sử dụng locale('en') : moment(new Date()).locale('en').format("ddd" - DD/MM)
@@ -11,6 +12,8 @@ class DoctorSchedule extends Component {
     state = {
         allDays: [],
         schelduleDoctor: [],
+        isOpenModal: false,
+        scheduleDoctorSelect: [],
         // doctorId: -1;
     }
 
@@ -20,12 +23,10 @@ class DoctorSchedule extends Component {
     }
 
     async componentDidMount() {
-
         let allDays = this.getArrDays()
         this.setState({
             allDays: allDays,
         })
-
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
@@ -38,6 +39,13 @@ class DoctorSchedule extends Component {
         if (prevProps.doctorId !== this.props.doctorId) {
             this.props.fetchScheduleDoctor(this.state.allDays[0].value, this.props.doctorId)
         }
+    }
+
+    handleIsOpenModal = (item) => {
+        this.setState({
+            isOpenModal: !this.state.isOpenModal,
+            scheduleDoctorSelect: item
+        })
     }
 
     getArrDays = () => {
@@ -74,47 +82,61 @@ class DoctorSchedule extends Component {
     }
 
     render() {
-        let { allDays, schelduleDoctor } = this.state
+        let { allDays, schelduleDoctor, isOpenModal } = this.state
         return (
+            <>
+                <div className='doctor-schedule-container'>
+                    <div className='all-schedule'>
+                        <select onChange={(event) => this.handleOnchangeSelectScheduke(event)}>
+                            {allDays && allDays.length > 0 &&
+                                allDays.map((item, index) => {
+                                    return (
+                                        <option
+                                            key={index}
+                                            value={item.value}
+                                        >
+                                            {item.label}
+                                        </option>
+                                    )
+                                })
+                            }
+                        </select>
+                    </div>
+                    <div className='all-available-time'>
+                        <div className='text-calendar'><i className="fas fa-calendar-alt"><span>Lịch khám</span></i></div>
+                        <div className='time-content'>
+                            {schelduleDoctor && schelduleDoctor.length > 0 ?
+                                <>
+                                    <div className='time-content-btns'>
+                                        {schelduleDoctor.map((item, index) => {
+                                            return (
+                                                <button
+                                                    key={index}
+                                                    onClick={() => this.handleIsOpenModal(item)}
 
-            <div className='doctor-schedule-container'>
-                <div className='all-schedule'>
-                    <select onChange={(event) => this.handleOnchangeSelectScheduke(event)}>
-                        {allDays && allDays.length > 0 &&
-                            allDays.map((item, index) => {
-                                return (
-                                    <option
-                                        key={index}
-                                        value={item.value}
-                                    >
-                                        {item.label}
-                                    </option>
-                                )
-                            })
-                        }
-                    </select>
-                </div>
-                <div className='all-available-time'>
-                    <div className='text-calendar'><i className="fas fa-calendar-alt"><span>Lịch khám</span></i></div>
-                    <div className='time-content'>
-                        {schelduleDoctor && schelduleDoctor.length > 0 ?
-                            <>
-                                <div className='time-content-btns'>
-                                    {schelduleDoctor.map((item, index) => {
-                                        return (
-                                            <button key={index}>{item.timeTypeData.valueEn}</button>
-                                            // console.log(item)
-                                        )
-                                    })
-                                    }
-                                </div>
-                                <div className='book-free'> Chọn <i className="fas fa-hand-point-up"></i> và đặt lịch (miễn phí)</div>
-                            </>
-                            : 'Bác sĩ không làm việc vào ngày này, vui lòng chọn ngày khác'
-                        }
+                                                >
+                                                    {item.timeTypeData.valueEn}
+                                                </button>
+                                                // console.log(item)
+                                            )
+                                        })
+                                        }
+                                    </div>
+                                    <div className='book-free'> Chọn <i className="fas fa-hand-point-up"></i> và đặt lịch (miễn phí)</div>
+                                </>
+                                : 'Bác sĩ không làm việc vào ngày này, vui lòng chọn ngày khác'
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
+                <BookingModal
+                    isOpenModal={this.state.isOpenModal}
+                    toggle={this.handleIsOpenModal}
+                    schelduleDoctorSelect={this.state.scheduleDoctorSelect}
+                />
+
+
+            </>
         );
     }
 

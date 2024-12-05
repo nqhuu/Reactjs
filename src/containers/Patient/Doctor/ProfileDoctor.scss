@@ -1,0 +1,93 @@
+.detail-container {
+    .detail-top {
+        display: flex;
+
+        .detail-top-left {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .detail-top-right {
+            width: calc(100% - 100px);
+            padding-left: 20px;
+            // padding-top: 10px;
+
+            .detail-right-up {
+                color: #337ab7;
+                font-size: 20px;
+                font-weight: 500;
+            }
+
+            .detail-right-down {
+                text-align: justify;
+            }
+
+            .detail-right-schedule {
+                padding-top: 5px;
+                display: flex;
+
+                .icon-date-time {
+                    min-width: 25px;
+                    text-align: center;
+                    color: #ccc;
+                    padding-right: 10px;
+                }
+
+                .date-time {
+                    color: #FEC206;
+                    font-weight: 600;
+                }
+            }
+
+            .detail-right-address-clinic {
+                padding-top: 5px;
+                display: flex;
+
+                .icon-clinic {
+                    min-width: 25px;
+                    text-align: center;
+                    color: #ccc;
+                    padding-right: 10px;
+
+                }
+
+                .address-clinic {
+
+                    .clinic {
+                        color: #555555;
+                        font-weight: 600;
+                        margin: 0;
+                        padding: 0;
+                    }
+
+                    .address {
+                        margin: 0;
+                        padding: 0;
+                    }
+
+                    .booking-free {
+                        // font-size: 14px;
+                        padding-top: 10px;
+                        font-style: italic;
+                    }
+                }
+            }
+        }
+    }
+
+    .price {
+        padding-top: 15px;
+    }
+
+    .detail-bottom {
+        margin-top: 20px;
+        padding-top: 50px;
+        background-color: #eceaea;
+
+    }
+
+}

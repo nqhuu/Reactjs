@@ -336,11 +336,9 @@ export const saveInforFailed = () => ({
 //VIEW DETAIL DOCTOR
 
 export const fetchDetailDoctorStart = (id) => {
-    // console.log('creteInforDoctor ===>', id)
     return async (dispatch, getState) => {
         try {
             let res = await DetailDoctorService(id);
-            // console.log('fetchDetailDoctorStart adminactions', res.data)
             if (res && res.errCode === 0) {
                 dispatch(detailDoctorSuccess(res.data))
             }
