@@ -3,7 +3,7 @@ import {
     getAllCodeService, createNewUserService,
     getAllUsers, deleteUserService, updateUserService,
     fetchAllTopDoctor, fetchAllDoctor, createInforDoctorService,
-    DetailDoctorService, bulkCreateScheduleSevice, fetchScheduleDoctorService
+    DetailDoctorService, bulkCreateScheduleSevice, fetchScheduleDoctorService, patientBookAppointmentService
 } from "../../services/userService";
 import { toast } from 'react-toastify';
 
@@ -390,11 +390,10 @@ export const fetAllScheduleTimeFaild = () => ({
 
 
 export const bulkCreateSchedule = (data) => {
-    // console.log(data)
+    // console.log('bulkCreateSchedule', data)
     return async (dispatch, getState) => {
         try {
             let res = await bulkCreateScheduleSevice(data)
-            // console.log('bulkCreateSchedule', res)
             if (res && res.errCode === 0) {
                 toast.success('Tạo lịch thành công')
                 dispatch(bulkCreateScheduleSuccess())
@@ -481,4 +480,33 @@ export const getRequiredDoctorInforSuccess = (data) => ({
 
 export const getRequiredDoctorInforFailed = () => ({
     type: actionTypes.FETCH_REQUIRED_INFOR_DOCTOR_FAILDED,
+})
+
+
+export const patientBookAppointment = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await patientBookAppointmentService(data)
+            if (res && res.errCode === 0) {
+                toast.success(res.errMessage)
+                dispatch(patientBookAppointmentSuccess())
+                return res;
+            }
+            if (res && res.errCode === 1) {
+                dispatch(patientBookAppointmentFaild())
+                toast.error(res.errMessage)
+                return res;
+            }
+        } catch (e) {
+            console.log(e)
+            dispatch(patientBookAppointmentFaild())
+        }
+    }
+}
+
+export const patientBookAppointmentSuccess = () => ({
+    type: actionTypes.CREATE_BOOKING_SUCCESS,
+})
+export const patientBookAppointmentFaild = () => ({
+    type: actionTypes.CREATE_BOOKING_FAILDED,
 })

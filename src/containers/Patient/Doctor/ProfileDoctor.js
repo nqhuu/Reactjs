@@ -63,16 +63,8 @@ class ProfileDoctor extends Component {
     }
 
     render() {
-        // let detailDoctor = '';
-        // let schelduleDoctorSelect = '';
-        // detailDoctor = this.props.detailDoctor ? this.props.detailDoctor : {}
-        // schelduleDoctorSelect = this.props.schelduleDoctorSelect && this.props.schelduleDoctorSelect.id && !_.isEmpty(this.props.schelduleDoctorSelect.timeTypeData) ? this.props.schelduleDoctorSelect : {}
-        // console.log('detailDoctor', detailDoctor)
-        // console.log('schelduleDoctorSelect', schelduleDoctorSelect)
 
         let { schelduleDoctorSelect, detailDoctor } = this.props
-        console.log('detailDoctor', detailDoctor)
-        console.log('schelduleDoctorSelect', schelduleDoctorSelect)
 
 
         return (

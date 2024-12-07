@@ -63,7 +63,7 @@ class ManageSchedule extends Component {
     }
 
     handleOnchangeDatePicker = (date) => {
-        console.log(typeof date, date)
+        // console.log(typeof date, date)
         if (date && Array.isArray(date)) {
             this.setState({
                 currentDate: date[0]
@@ -88,7 +88,7 @@ class ManageSchedule extends Component {
     handleSaveSchedule = async () => {
         let { currentDate, rangeTime, selectDoctor } = this.state
         let saveSchedule = [];
-        let formatDate = new Date(currentDate).getTime();
+        let formatDate = new Date(currentDate).getTime(); // convert to timestamp 
         if (selectDoctor && _.isEmpty(selectDoctor)) {
             toast.error('Chọn Doctor');
             return;
@@ -144,7 +144,7 @@ class ManageSchedule extends Component {
                                 onChange={this.handleOnchangeDatePicker}
                                 className="form-control"
                                 value={this.state.currentDate}
-                                minDate={new Date().setHours(0, 0, 0, 0)} //{new Date(new Date().setDate(new Date().getDate() - 1))}
+                                minDate={new Date().setHours(0, 0, 0, 0)} // cho phép nhận minDate là ngày hiện tại
                             />
                         </div>
                         <div className="col-12 pick-hour-container">
