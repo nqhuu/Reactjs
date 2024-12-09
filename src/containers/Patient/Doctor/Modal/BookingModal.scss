@@ -65,6 +65,19 @@
             padding-right: 5px;
 
 
+            span {
+                color: red;
+                // text-align: center;
+                flex: 1;
+                /* Chiếm toàn bộ khoảng trống còn lại để căn giữa */
+                display: flex;
+                background-color: rgb(250, 250, 123);
+                height: 30px;
+                font-size: 18px;
+                justify-content: center;
+                align-items: center;
+            }
+
             .btn-confirm {
                 min-width: 80px;
                 outline: none;

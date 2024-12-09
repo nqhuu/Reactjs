@@ -5,8 +5,12 @@ import { Modal } from 'reactstrap';
 import ProfileDoctor from '../../Doctor/ProfileDoctor'
 import DatePicker from "../../../../components/Input/DatePicker";
 import * as actions from "../../../../store/actions";
-import _ from 'lodash';
+import _, { times } from 'lodash';
 import { toast } from "react-toastify";
+import moment from 'moment'; // format date
+import localization from 'moment/locale/vi'; // moment sẽ format date theo tiếng việt
+// muốn chuyển lại tiếng anh thì cần sử dụng locale('en') : moment(new Date()).locale('en').format("ddd" - DD/MM)
+
 
 
 
@@ -25,7 +29,11 @@ class BookingModal extends Component {
         gender: 'M',
         doctorId: '',
         timeType: '',
-        // date: '',
+        timeTypeData: '',
+        dateBooking: '',
+        fullNameDoctor: '',
+        doctorData: '',
+        isLoading: false,
     }
 
     async componentDidMount() {
@@ -34,8 +42,11 @@ class BookingModal extends Component {
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.detailDoctor !== this.props.detailDoctor) {
+            let detailDoctor = this.props.detailDoctor
             this.setState({
-                detailDoctor: this.props.detailDoctor
+                // detailDoctor: this.props.detailDoctor
+                fullNameDoctor: `${detailDoctor.firstName} ${detailDoctor.lastName}`,
+                doctorData: detailDoctor.doctorData
             })
         }
 
@@ -44,7 +55,8 @@ class BookingModal extends Component {
                 this.setState({
                     doctorId: this.props.schelduleDoctorSelect.doctorId,
                     timeType: this.props.schelduleDoctorSelect.timeType,
-                    // date: this.props.schelduleDoctorSelect.date,
+                    timeTypeData: this.props.schelduleDoctorSelect.timeTypeData,
+                    dateBooking: this.props.schelduleDoctorSelect.date,
                     // schelduleDoctorSelect: this.props.schelduleDoctorSelect,
                 })
         }
@@ -94,6 +106,9 @@ class BookingModal extends Component {
     }
 
     handleConfirmBooking = async () => {
+        this.setState({
+            isLoading: !this.state.isLoading
+        })
         let birthDayTimeStamp = new Date(this.state.birthDay).getTime()
         let { fullName, phoneNumber, email, address, reason, birthDay } = this.state
         if (birthDay) { birthDay = new Date(birthDay).getTime() }
@@ -102,6 +117,7 @@ class BookingModal extends Component {
         if (isEmpty || birthDay.toString().length <= 0) {
             toast.warning('Bạn cần nhập đủ các trường có dấu (*)')
         } else {
+            let timeString = this.timeBooking(this.props.schelduleDoctorSelect)
             let res = await this.props.patientBookAppointment({
                 fullName: this.state.fullName,
                 phoneNumber: this.state.phoneNumber,
@@ -112,20 +128,42 @@ class BookingModal extends Component {
                 gender: this.state.gender,
                 doctorId: this.state.doctorId,
                 timeType: this.state.timeType,
-                date: birthDayTimeStamp,
+                time: this.state.timeTypeData,
+                dateBirthDay: birthDayTimeStamp,
+                fullNameDoctor: this.state.fullNameDoctor,
+                doctorData: this.state.doctorData,
+                dateBooking: this.state.dateBooking,
+                timeString: timeString,
             })
-            console.log(res)
             if (res && res.errCode === 0) {
                 this.handleCloseModal()
+                this.setState({
+                    isLoading: !this.state.isLoading
+                })
+            } else {
+                toast.warning('Bạn vui lòng chờ trong giấy lát')
             }
         }
 
     }
 
+    capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1)
+    }
+
+    timeBooking = (schelduleDoctorSelect, detailDoctor) => {
+        if (schelduleDoctorSelect && !_.isEmpty(schelduleDoctorSelect.timeTypeData)) {
+            let date = +schelduleDoctorSelect.date
+            date = this.capitalizeFirstLetter(moment(date).format('dddd - DD/MM/YYYY'))
+            let time = schelduleDoctorSelect.timeTypeData.valueVi
+            return `${time} - ${date}`
+        }
+        return <></>
+    }
+
 
 
     render() {
-
         let { detailDoctor, genderArray } = this.state
         return (
             <Modal
@@ -234,6 +272,7 @@ class BookingModal extends Component {
 
 
                     <div className='modal-booking-footer'>
+                        {this.state.isLoading && <span>Vui lòng chờ trong giây lát</span>}
                         <button
                             className='btn-confirm'
                             onClick={() => this.handleConfirmBooking()}
