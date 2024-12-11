@@ -128,7 +128,7 @@ class BookingModal extends Component {
                 gender: this.state.gender,
                 doctorId: this.state.doctorId,
                 timeType: this.state.timeType,
-                time: this.state.timeTypeData,
+                // time: this.state.timeTypeData,
                 dateBirthDay: birthDayTimeStamp,
                 fullNameDoctor: this.state.fullNameDoctor,
                 doctorData: this.state.doctorData,
@@ -136,7 +136,7 @@ class BookingModal extends Component {
                 timeString: timeString,
             })
             if (res && res.errCode === 0) {
-                this.handleCloseModal()
+                // this.handleCloseModal()
                 this.setState({
                     isLoading: !this.state.isLoading
                 })
@@ -272,13 +272,16 @@ class BookingModal extends Component {
 
 
                     <div className='modal-booking-footer'>
-                        {this.state.isLoading && <span>Vui lòng chờ trong giây lát</span>}
-                        <button
-                            className='btn-confirm'
-                            onClick={() => this.handleConfirmBooking()}
-                        >
-                            Xác nhận
-                        </button>
+                        {this.state.isLoading ?
+                            <span>Vui lòng chờ trong giây lát</span>
+                            :
+                            <button
+                                className='btn-confirm'
+                                onClick={() => this.handleConfirmBooking()}
+                            >
+                                Xác nhận
+                            </button>}
+
                         <button
                             className='btn-close'
                             onClick={() => this.handleCloseModal()}

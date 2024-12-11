@@ -69,6 +69,8 @@ const actionTypes = Object.freeze({
     CREATE_BOOKING_SUCCESS: 'CREATE_BOOKING_SUCCESS',
     CREATE_BOOKING_FAILDED: 'CREATE_BOOKING_FAILDED',
 
+
+
 })
 
 export default actionTypes;
