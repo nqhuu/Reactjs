@@ -1,6 +1,6 @@
 class CommonUtils {
 
-  //mã hóa hình ảnh theo chuẩn base64
+  //mã hóa hình ảnh, video...sang theo chuẩn base64
   static getBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();

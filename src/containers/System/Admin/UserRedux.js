@@ -116,9 +116,9 @@ class UserRedux extends Component {
         let data = event.target.files;
         let file = data[0];
         if (file) {
-            let base64 = await CommonUtils.getBase64(file);
+            let base64 = await CommonUtils.getBase64(file); // trả ra dữ liệu kiểu base64
             console.log('base64', base64)
-            let objectUrl = URL.createObjectURL(file)
+            let objectUrl = URL.createObjectURL(file) //trả về kiểu đường dẫn Blob kiểu :   blob:http://localhost:3000/d5b498a1-3121-473c-b4eb-31b37fb38049
             this.setState({
                 previewImgURL: objectUrl,
                 avatar: base64

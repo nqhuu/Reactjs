@@ -6,6 +6,7 @@ import UserRedux from '../containers/System/Admin/UserRedux';
 // import RegisterPackageGroupOrAcc from '../containers/System/RegisterPackageGroupOrAcc';
 import Header from '../containers/Header/Header';
 import ManageDoctor from '../containers/System/Admin/ManageDoctor'
+import ManageSpecialty from '../containers/System/Specialty/ManageSpecialty'
 
 class System extends Component {
     render() {
@@ -19,7 +20,12 @@ class System extends Component {
                             <Route path="/system/user-manage" component={UserManage} />
                             <Route path="/system/user-redux" component={UserRedux} />
                             <Route path="/system/manage-doctor" component={ManageDoctor} />
+                            <Route path="/system/manage-specialty" component={ManageSpecialty} />
                             <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
+                            {/* React Router không tìm thấy tuyến đường khớp.
+                                Tuyến đường <Route component={() => { return (<Redirect to={systemMenuPath} />) }} /> sẽ được kích hoạt.
+                                systemMenuPath trong Redux store có giá trị là /system/user-manage.
+                                Thành phần <Redirect> sẽ chuyển hướng người dùng đến /system/user-manage. tránh việc lỗi khi không tìm được route phù hợp*/}
                         </Switch>
                     </div>
                 </div>

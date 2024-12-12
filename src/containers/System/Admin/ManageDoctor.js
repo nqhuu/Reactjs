@@ -6,8 +6,8 @@ import * as actions from "../../../store/actions";
 // import ModalConfirm from '../ModalConfirm';
 import './ManageDoctor.scss'
 // /* markdown editer lite */ 
-import MarkdownIt from 'markdown-it';
-import MdEditor from 'react-markdown-editor-lite';
+import MarkdownIt from 'markdown-it'; // cung cấp giao diện soạn thảo
+import MdEditor from 'react-markdown-editor-lite'; // thực hiện chuyển đổi markdown sang HTML
 // import style manually
 import 'react-markdown-editor-lite/lib/index.css';
 import Select from 'react-select';

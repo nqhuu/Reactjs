@@ -150,7 +150,7 @@ class Navigator extends Component {
                                     [key]: true
                                 }
                             });
-                            break outerLoop;
+                            break outerLoop; // outerLoop : đặt ở đầu vòng for và break để thoát tất cả các vòng lặp bắt đầu từ outerLoop :
                         }
                     }
                 }
