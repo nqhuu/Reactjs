@@ -4,6 +4,7 @@ import './MedicalFacility.scss';
 import Slider from "react-slick";
 import * as actions from "../../../store/actions";
 import { withRouter } from 'react-router-dom';
+require('dotenv').config();
 
 
 class OutStandingDoctor extends Component {
@@ -25,7 +26,9 @@ class OutStandingDoctor extends Component {
     }
 
     handleViewDetailDoctor = (doctor) => {
-        this.props.history.push(`/detail-doctor/${doctor.id}`)  //history là thuộc tính của withRouter
+        if (this.props.history) {
+            this.props.history.push(`/detail-doctor/${doctor.id}`)  //history là thuộc tính của withRouter
+        }
     }
 
     render() {
@@ -83,6 +86,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     let limit = 10;
+    // let limit = process.env.LIMIT;
     return {
         fetchTopDoctorRedux: () => dispatch(actions.fetchTopDoctorStart(limit)),
     };

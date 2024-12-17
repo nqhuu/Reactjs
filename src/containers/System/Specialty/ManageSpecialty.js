@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from "../../../store/actions";
-import _, { times } from 'lodash';
+import _ from 'lodash';
 import { LANGUAGES, CRUD_ACTIONS, CommonUtils } from "../../../utils";
 import './ManageSpecialty.scss'
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
-import Lightbox from 'react-image-lightbox'; // thư viện giúp phóng to ảnh được input
+// import Lightbox from 'react-image-lightbox'; // thư viện giúp phóng to ảnh được input
 import { createNewSpecialty } from '../../../services/userService'
 import { toast } from 'react-toastify';
 
@@ -66,7 +66,6 @@ class ManageSpecialty extends Component {
                 previewImgURL: objectUrl,
                 imageBase64: base64
             })
-            // console.log('check file', objectUrl)
         }
     }
 
@@ -86,24 +85,15 @@ class ManageSpecialty extends Component {
                 descriptionHTML: '',
                 imageBase64: '',
                 previewImgURL: '',
+                // file: null,
             })
         } else {
             toast.error('Tạo không thành công')
         }
     }
 
-    // openPreviewImage = () => {
-    //     if (!this.state.previewImgURL) {
-    //         return;
-    //     }
-    //     this.setState({
-    //         isOpen: true
-    //     })
-    // }
-
     render() {
         let { nameSpecialty, descriptionMarkdown, descriptionHTML, imageBase64, previewImgURL } = this.state
-        // console.log(imageBase64, previewImgURL)
         return (
             <div className='manage-specialty-container'>
                 <div className='ms-title'>Quản lý chuyên khoa</div>
@@ -124,18 +114,6 @@ class ManageSpecialty extends Component {
                             type='file'
                             onChange={(event) => this.handleOnchangeImage(event)}
                         />
-                        {/* <input
-                            id='previewImg'
-                            hidden
-                            type='file'
-                            onChange={(event) => this.handleOnchangeImage(event)}
-                        /> */}
-                        {/* <div className='label-upload' htmlFor='previewImg'>Tải ảnh <i className="fas fa-upload"></i></div> */}
-                        {/* htmlFor='previewImg' sử dụng để giúp label liên kết với thẻ input có id = 'previewImg', khi click vào label thì thì sẻ mở lên hộp thoại của input với type là  file ngay cả khi input bị ẩn "hidden" */}
-                        {/* <div className='preview-image'
-                            style={{ backgroundImage: `url(${this.state.previewImgURL})` }}
-                            onClick={() => this.openPreviewImage()}
-                        ></div> */}
                     </div>
                 </div>
                 <div className='manage-doctor-editor'>
@@ -156,12 +134,6 @@ class ManageSpecialty extends Component {
                         Xác nhận
                     </button>
                 </div>
-                {/* {this.state.isOpen == true &&
-                    <Lightbox
-                        mainSrc={this.state.previewImgURL}
-                        onCloseRequest={() => this.setState({ isOpen: false })}
-                    />
-                } */}
             </div>
 
         )

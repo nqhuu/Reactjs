@@ -3,7 +3,7 @@ import {
     getAllCodeService, createNewUserService,
     getAllUsers, deleteUserService, updateUserService,
     fetchAllTopDoctor, fetchAllDoctor, createInforDoctorService,
-    DetailDoctorService, bulkCreateScheduleSevice, fetchScheduleDoctorService, patientBookAppointmentService
+    DetailDoctorService, bulkCreateScheduleSevice, fetchScheduleDoctorService, patientBookAppointmentService, fetchSpecialtyService
 } from "../../services/userService";
 import { toast } from 'react-toastify';
 
@@ -263,6 +263,35 @@ export const fetchAllTopDoctorFailed = () => ({
     type: actionTypes.FETCH_TOP_DOCTOR_FAILDED,
 })
 
+
+// Danh sách specialty
+export const fetchSpecialty = (limit) => {
+    return async (dispatch, getState) => {
+        try {
+            // let limit = 50
+            let res = await fetchSpecialtyService(limit)
+            // console.log('fetchSpecialty data', res)
+            if (res && res.errCode === 0) {
+                dispatch(fetchSpecialtySuccess(res.data))
+            }
+            else {
+                dispatch(fetchSpecialtyFailed())
+            }
+        } catch (e) {
+            dispatch(fetchSpecialtyFailed())
+            console.log('fetchTopDoctor error', e)
+        }
+    }
+}
+
+export const fetchSpecialtySuccess = (data) => ({
+    type: actionTypes.FETCH_All_SPECIALTY_SUCCESS,
+    data: data
+})
+
+export const fetchSpecialtyFailed = () => ({
+    type: actionTypes.FETCH_All_SPECIALTY_FAILDED,
+})
 
 
 

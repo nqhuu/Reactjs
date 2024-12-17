@@ -19,6 +19,7 @@ const initialState = {
     allScheduleTime: [],
     schelduleDoctor: [],
     listPriceProvincePayment: [],
+    listSpecialty: []
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -136,6 +137,16 @@ const adminReducer = (state = initialState, action) => {
             }
         case actionTypes.FETCH_REQUIRED_INFOR_DOCTOR_FAILDED:
             state.listPriceProvincePayment = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_All_SPECIALTY_SUCCESS:
+            state.listSpecialty = action.data;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_All_SPECIALTY_FAILDED:
+            state.listSpecialty = [];
             return {
                 ...state
             }
