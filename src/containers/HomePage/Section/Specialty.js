@@ -32,7 +32,7 @@ class Specialty extends Component {
     }
 
     handleViewDetailDoctor = (item) => {
-        console.log('item', item.id)
+        console.log('item', item)
         // console.log('this.props.history', this.props.history)
         if (this.props.history) {
             this.props.history.push(`/detail-specialty/${item.id}`)  //history là thuộc tính của withRouter

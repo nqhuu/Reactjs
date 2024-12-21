@@ -164,7 +164,12 @@ class BookingModal extends Component {
 
 
     render() {
-        let { detailDoctor, genderArray } = this.state
+        let { detailDoctor, genderArray } = this.state;
+        let { schelduleDoctorSelect } = this.props;
+        let doctorId = '';
+        if (schelduleDoctorSelect && !_.isEmpty(schelduleDoctorSelect)) {
+            doctorId = schelduleDoctorSelect.doctorId;
+        }
         return (
             <Modal
                 isOpen={this.props.isOpenModal}
@@ -191,7 +196,9 @@ class BookingModal extends Component {
                         <div className='profile-doctor'>
                             <ProfileDoctor
                                 showInfor={false}
-                                schelduleDoctorSelect={this.props.schelduleDoctorSelect}
+                                dataTime={schelduleDoctorSelect}
+                                doctorId={doctorId}
+
                             />
                         </div>
                         <div className='row'>

@@ -4,6 +4,7 @@ import "./DoctorExtraInfor.scss";
 import * as actions from "../../../store/actions";
 import { getExtraInforDoctorByIdService } from "../../../services/userService"
 import NumericFormat from 'react-number-format';
+import { DetailDoctorService } from '../../../services/userService'
 
 class DoctorExtraInfor extends Component {
 
@@ -13,27 +14,37 @@ class DoctorExtraInfor extends Component {
     }
 
     async componentDidMount() {
-
+        if (this.props.doctorId) {
+            let detailDoctorDb = await DetailDoctorService(this.props.doctorId);
+            if (detailDoctorDb && detailDoctorDb.errCode === 0) {
+                this.setState({
+                    detailDoctor: detailDoctorDb.data,
+                });
+            };
+        };
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.detailDoctor !== this.props.detailDoctor) {
-            this.setState({
-                detailDoctor: this.props.detailDoctor
-            })
-        }
-    }
+        if (prevProps.doctorId !== this.props.doctorId) {
+            let detailDoctorDb = await DetailDoctorService(this.props.doctorId);
+            if (detailDoctorDb && detailDoctorDb.errCode === 0) {
+                this.setState({
+                    detailDoctor: detailDoctorDb.data,
+                });
+            };
+        };
+    };
 
 
     handleHideShowPrice = () => {
         this.setState({
             hideShow: !this.state.hideShow
-        })
-    }
+        });
+    };
 
     render() {
         let { detailDoctor } = this.state;
-        // console.log('detailDoctor DoctorExtraInfor', detailDoctor)
+        // console.log('detailDoctor DoctorExtraInfor', detailDoctor);
         return (
             <div className='doctor-extra-infor-container'>
                 <div className='content-up'>
@@ -93,9 +104,9 @@ class DoctorExtraInfor extends Component {
 
             </div>
         );
-    }
+    };
 
-}
+};
 
 const mapStateToProps = state => {
     return {
@@ -105,7 +116,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        // fetchDetailDoctor: (id) => dispatch(actions.fetchDetailDoctorStart(id))
+        fetchDetailDoctor: (id) => dispatch(actions.fetchDetailDoctorStart(id))
     };
 };
 

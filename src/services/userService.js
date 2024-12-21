@@ -58,8 +58,13 @@ const fetchScheduleDoctorService = (date, doctorId) => {
     return axios.get(`/api/get-schedule-doctor-by-id?doctorId=${doctorId}&date=${date}`)
 }
 
-const getExtraInforDoctorByIdService = (doctorId) => {
-    return axios.get(`/api/get-extra-infor-doctor-by-id?doctorId=${doctorId}`)
+// const getExtraInforDoctorByIdService = (doctorId) => {
+//     console.log('getExtraInforDoctorByIdService', { doctorId })
+//     return axios.get('/api/get-extra-infor-doctor-by-id', { doctorId })
+// }
+const getProfileDoctorById = (doctorId) => {
+    // console.log('getProfileDoctorById', doctorId)
+    return axios.get(`/api/get-profile-doctor-by-id?doctorId=${doctorId}`)
 }
 
 const patientBookAppointmentService = (data) => {
@@ -85,6 +90,6 @@ export {
     fetchAllDoctor, fetchAllTopDoctor,
     createInforDoctorService, DetailDoctorService,
     bulkCreateScheduleSevice, fetchScheduleDoctorService,
-    getExtraInforDoctorByIdService, patientBookAppointmentService,
-    postVerifyBookAppointmentService, createNewSpecialty, fetchSpecialtyService
+    patientBookAppointmentService,
+    postVerifyBookAppointmentService, createNewSpecialty, fetchSpecialtyService, getProfileDoctorById
 };

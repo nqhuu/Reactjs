@@ -1,0 +1,37 @@
+.detail-container {
+    margin: 0 150px;
+
+    .detail-specialty {
+        min-height: 200px;
+        border: 1px solid orange;
+    }
+
+    .dt-specialty-container {
+        display: flex;
+        padding: 10px 0;
+        margin-top: 10px;
+        border: none;
+        box-shadow: 1px 1px 6px 0px grey;
+        border-radius: 5px;
+        min-height: 200px;
+
+        .dt-specialty-left {
+            width: 50%;
+            padding: 0 10px;
+        }
+
+        .dt-specialty-right {
+            width: 50%;
+
+            .dt-specialty-right-top {
+                padding-left: 15px;
+            }
+
+            .dt-specialty-right-bot {
+                padding-top: 10px;
+            }
+
+
+        }
+    }
+}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import "./ProfileDoctor.scss";
 import NumericFormat from 'react-number-format';
+import { getProfileDoctorById, DetailDoctorService } from '../../../services/userService'
 import moment from 'moment'; // format date
 import localization from 'moment/locale/vi'; // moment sẽ format date theo tiếng việt
 // muốn chuyển lại tiếng anh thì cần sử dụng locale('en') : moment(new Date()).locale('en').format("ddd" - DD/MM)
@@ -10,19 +11,38 @@ import _ from 'lodash';
 class ProfileDoctor extends Component {
 
     state = {
-        schelduleDoctorSelect: []
+        dataTime: [],
+        detailDoctor: []
     }
 
 
     async componentDidMount() {
         this.setState({
-            schelduleDoctorSelect: this.props.schelduleDoctorSelect
+            dataTime: this.props.dataTime
+        })
+        let data = await this.getInforDoctor(this.props.doctorId)
+        this.setState({
+            detailDoctor: data
         })
     }
 
-    async componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.detailDoctor !== this.props.detailDoctor) {
+    getInforDoctor = async (id) => {
+        let result = {};
+        if (id) {
+            let res = await DetailDoctorService(id)
+            console.log(res)
+            if (res && res.errCode === 0) {
+                result = res.data
+            }
+        }
+        return result;
+    }
 
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.dataTime !== this.props.dataTime) {
+            this.setState({
+                dataTime: this.props.dataTime
+            })
         }
     }
 
@@ -30,16 +50,16 @@ class ProfileDoctor extends Component {
         return string.charAt(0).toUpperCase() + string.slice(1)
     }
 
-    renderTimeBooking = (schelduleDoctorSelect, detailDoctor) => {
-        if (schelduleDoctorSelect && !_.isEmpty(schelduleDoctorSelect.timeTypeData) && !_.isEmpty(detailDoctor.doctorData)) {
-            let date = +schelduleDoctorSelect.date
+    renderTimeBooking = (dataTime, detailDoctor) => {
+        if (dataTime && !_.isEmpty(dataTime.timeTypeData) && !_.isEmpty(detailDoctor.doctorData)) {
+            let date = +dataTime.date
             return (
                 <>
                     <div className='detail-right-schedule'>
                         <div className='icon-date-time'><i className="fa fa-calendar" aria-hidden="true"></i></div>
-                        {schelduleDoctorSelect && schelduleDoctorSelect.timeTypeData &&
+                        {dataTime && dataTime.timeTypeData &&
                             <div className='date-time'>
-                                <span>{schelduleDoctorSelect.timeTypeData.valueVi}</span>
+                                <span>{dataTime.timeTypeData.valueVi}</span>
                                 <span> - </span>
                                 <span>{this.capitalizeFirstLetter(moment(date).format('dddd - DD/MM/YYYY'))}</span>
                             </div>
@@ -64,8 +84,10 @@ class ProfileDoctor extends Component {
 
     render() {
 
-        let { schelduleDoctorSelect, detailDoctor } = this.props
-
+        let { } = this.props
+        let { dataTime, detailDoctor } = this.state
+        console.log('props detailDoctor profile', detailDoctor)
+        console.log('props dataTime profile', dataTime)
 
         return (
             <>
@@ -91,7 +113,7 @@ class ProfileDoctor extends Component {
                                 </div>
                                 :
                                 <>
-                                    {this.renderTimeBooking(schelduleDoctorSelect, detailDoctor)}
+                                    {this.renderTimeBooking(dataTime, detailDoctor)}
                                 </>
                             }
 
@@ -119,8 +141,8 @@ class ProfileDoctor extends Component {
 
 const mapStateToProps = state => {
     return {
-        detailDoctor: state.admin.detailDoctor,
-        schelduleDoctor: state.admin.schelduleDoctor,
+        // detailDoctor: state.admin.detailDoctor,
+        // schelduleDoctor: state.admin.schelduleDoctor,
     };
 };
 

@@ -46,7 +46,8 @@ class DetailDoctor extends Component {
                     </div>
                     <div className='detail-container'>
                         <div className='detail-top'>
-                            <div className='detail-top-left'
+                            <div
+                                className='detail-top-left'
                                 style={{ backgroundImage: `url(${detailDoctor.image})` }}
                             >
 
@@ -68,7 +69,7 @@ class DetailDoctor extends Component {
 
                         <div className='Schedule-doctor'>
                             <div className='content-left'>
-                                <DoctorSchedule doctorId={this.state.detailDoctorId} />.
+                                <DoctorSchedule doctorId={this.state.detailDoctorId} />
                             </div>
                             <div className='content-right'>
                                 <DoctorExtraInfor

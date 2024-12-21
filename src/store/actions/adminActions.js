@@ -450,7 +450,7 @@ export const fetchScheduleDoctor = (date, doctorId) => {
     return async (dispatch, getState) => {
         try {
             let res = await fetchScheduleDoctorService(date, doctorId)
-            // console.log('fetchScheduleDoctorService', res)
+            console.log('fetchScheduleDoctorService', res)
             if (res && res.errCode === 0) {
                 // toast.success('Tạo lịch thành công')
                 dispatch(fetchScheduleDoctorSuccess(res.data))

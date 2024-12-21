@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import "./DoctorSchedule.scss";
 import * as actions from "../../../store/actions";
 import BookingModal from "../Doctor/Modal/BookingModal"
+import { fetchScheduleDoctorService } from '../../../services/userService'
 import moment from 'moment'; // format date
 import localization from 'moment/locale/vi'; // moment sẽ format date theo tiếng việt
 // muốn chuyển lại tiếng anh thì cần sử dụng locale('en') : moment(new Date()).locale('en').format("ddd" - DD/MM)
@@ -23,32 +24,44 @@ class DoctorSchedule extends Component {
     }
 
     async componentDidMount() {
-        let allDays = this.getArrDays()
-        this.setState({
-            allDays: allDays,
+        await this.setArrDays(() => {
+            if (this.props.doctorId && this.state.allDays[0].value) {
+                this.callApiScheduleDoctor(this.props.doctorId, this.state.allDays[0].value)
+            }
         })
+
+    }
+
+    // if (this.props.doctorId && this.state.allDays[0].value) {
+
+
+    callApiScheduleDoctor = async (doctorId, value) => {
+        if (doctorId && value) {
+            let scheduleDoctorDb = await fetchScheduleDoctorService(value, doctorId)
+            // console.log('callApiScheduleDoctor', scheduleDoctorDb)
+            if (scheduleDoctorDb && scheduleDoctorDb.errCode === 0) {
+                this.setState({
+                    schelduleDoctor: scheduleDoctorDb.data
+                })
+            }
+        }
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.schelduleDoctor !== this.props.schelduleDoctor) {
-            this.setState({
-                schelduleDoctor: this.props.schelduleDoctor
-            })
-        }
 
         if (prevProps.doctorId !== this.props.doctorId) {
-            this.props.fetchScheduleDoctor(this.state.allDays[0].value, this.props.doctorId)
+            // this.props.fetchScheduleDoctor(this.state.allDays[0].value, this.props.doctorId)
+            // let scheduleDoctorDb = await fetchScheduleDoctorService(this.state.allDays[0].value, this.props.doctorId)
+            // if (scheduleDoctorDb && scheduleDoctorDb.errCode === 0) {
+            //     this.setState({
+            //         schelduleDoctor: scheduleDoctorDb.data
+            //     })
+            // }
+            this.callApiScheduleDoctor(this.props.doctorId, this.state.allDays[0].value)
         }
     }
 
-    handleIsOpenModal = (item) => {
-        this.setState({
-            isOpenModal: !this.state.isOpenModal,
-            scheduleDoctorSelect: item
-        })
-    }
-
-    getArrDays = () => {
+    setArrDays = (callback) => {
         let allDays = [];
 
         // tạo mảng chứa các option cho select ngày (lấy từ ngày hiện tại tới 6 ngày tiếp theo)
@@ -65,24 +78,43 @@ class DoctorSchedule extends Component {
             object.value = moment(new Date()).add(i, 'days').startOf('day').valueOf();
             allDays.push(object);
         }
-        return allDays;
+        this.setState({
+            allDays: allDays,
+        }, callback)
+        // return;
+    }
 
+
+    handleIsOpenModal = (item) => {
+        this.setState({
+            isOpenModal: !this.state.isOpenModal,
+            scheduleDoctorSelect: item
+        })
     }
 
 
 
 
-    handleOnchangeSelectScheduke = (event) => {
+
+    handleOnchangeSelectScheduke = async (event) => {
         let date = event.target.value
         let doctorId = this.props.doctorId
         if (doctorId && doctorId !== -1) {
-            this.props.fetchScheduleDoctor(date, doctorId)
+            // this.props.fetchScheduleDoctor(date, doctorId)
+            let scheduleDoctorDb = await fetchScheduleDoctorService(date, doctorId)
+            if (scheduleDoctorDb && scheduleDoctorDb.errCode === 0) {
+                this.setState({
+                    schelduleDoctor: scheduleDoctorDb.data
+                })
+            }
+
         }
 
     }
 
     render() {
-        let { allDays, schelduleDoctor, isOpenModal } = this.state
+        // console.log('props', this.props.doctorId)
+        let { allDays, schelduleDoctor, isOpenModal, scheduleDoctorSelect } = this.state
         return (
             <>
                 <div className='doctor-schedule-container'>
@@ -113,11 +145,9 @@ class DoctorSchedule extends Component {
                                                 <button
                                                     key={index}
                                                     onClick={() => this.handleIsOpenModal(item)}
-
                                                 >
                                                     {item.timeTypeData.valueEn}
                                                 </button>
-                                                // console.log(item)
                                             )
                                         })
                                         }
@@ -133,6 +163,7 @@ class DoctorSchedule extends Component {
                     isOpenModal={this.state.isOpenModal}
                     toggle={this.handleIsOpenModal}
                     schelduleDoctorSelect={this.state.scheduleDoctorSelect}
+                // dataTime={scheduleDoctorSelect}
                 />
 
 
@@ -145,13 +176,13 @@ class DoctorSchedule extends Component {
 const mapStateToProps = state => {
     return {
         detailDoctor: state.admin.detailDoctor,
-        schelduleDoctor: state.admin.schelduleDoctor,
+        // schelduleDoctor: state.admin.schelduleDoctor,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchScheduleDoctor: (date, doctorId) => dispatch(actions.fetchScheduleDoctor(date, doctorId))
+        // fetchScheduleDoctor: (date, doctorId) => dispatch(actions.fetchScheduleDoctor(date, doctorId))
     };
 };
 
