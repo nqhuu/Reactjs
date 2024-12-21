@@ -83,6 +83,10 @@ const fetchSpecialtyService = (limit) => {
     return axios.get(`/api/get-all-specialty?limit=${limit}`)
 }
 
+const getAllSpecialtyById = (id, location) => {
+    return axios.get(`/api/get-detail-specialty-by-id?id=${id}&location=${location}`)
+}
+
 export {
     handleLoginApi, getAllUsers,
     createNewUserService, deleteUserService,
@@ -91,5 +95,5 @@ export {
     createInforDoctorService, DetailDoctorService,
     bulkCreateScheduleSevice, fetchScheduleDoctorService,
     patientBookAppointmentService,
-    postVerifyBookAppointmentService, createNewSpecialty, fetchSpecialtyService, getProfileDoctorById
+    postVerifyBookAppointmentService, createNewSpecialty, fetchSpecialtyService, getProfileDoctorById, getAllSpecialtyById
 };

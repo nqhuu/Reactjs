@@ -30,7 +30,6 @@ class ProfileDoctor extends Component {
         let result = {};
         if (id) {
             let res = await DetailDoctorService(id)
-            console.log(res)
             if (res && res.errCode === 0) {
                 result = res.data
             }
@@ -84,10 +83,7 @@ class ProfileDoctor extends Component {
 
     render() {
 
-        let { } = this.props
         let { dataTime, detailDoctor } = this.state
-        console.log('props detailDoctor profile', detailDoctor)
-        console.log('props dataTime profile', dataTime)
 
         return (
             <>
@@ -141,8 +137,7 @@ class ProfileDoctor extends Component {
 
 const mapStateToProps = state => {
     return {
-        // detailDoctor: state.admin.detailDoctor,
-        // schelduleDoctor: state.admin.schelduleDoctor,
+
     };
 };
 
