@@ -24,14 +24,20 @@ class DetailSpecialty extends Component {
         speciatyId: '',
         inforSpecialty: {},
         listProvince: [],
-        selectProvice: ''
+        selectProvice: { label: 'Toàn Quốc', value: 'ALL' },
+        arrId: ''
     }
 
     async componentDidMount() {
+        await this.props.fetchAllDoctorRedux();
+
         let inforSpecialty = await getAllSpecialtyById(this.props.match.params.id, this.state.location)
         if (inforSpecialty && inforSpecialty.errCode === 0) {
+            let doctorInSpecialty = inforSpecialty.data.doctorInSpecialty;
+            let arrId = doctorInSpecialty.map((item, id) => item.doctorId)
             this.setState({
-                inforSpecialty: inforSpecialty
+                inforSpecialty: inforSpecialty.data.specialty,
+                arrId: arrId
             })
         }
 
@@ -47,6 +53,7 @@ class DetailSpecialty extends Component {
                     list.push(result)
                 })
             }
+            list.unshift({ label: 'Toàn Quốc', value: 'ALL' })
             this.setState({
                 listProvince: list
             })
@@ -55,41 +62,57 @@ class DetailSpecialty extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        // if (prevState.speciatyId !== this.props.match.params.id) {
-        //    
-        // }
+
+        if (prevState.location !== this.state.location) {
+            let inforSpecialty = await getAllSpecialtyById(this.props.match.params.id, this.state.location)
+            if (inforSpecialty && inforSpecialty.errCode === 0) {
+                let doctorInSpecialty = inforSpecialty.data.doctorInSpecialty;
+                let arrId = doctorInSpecialty.map((item, id) => item.doctorId)
+                this.setState({
+                    inforSpecialty: inforSpecialty.data.specialty,
+                    arrId: arrId
+                })
+            }
+        }
+    }
+
+
+    handleChangeSelectProvice = (selectProvice) => {
+        this.setState({
+            selectProvice: selectProvice,
+            location: selectProvice.value
+        })
     }
 
 
     render() {
-        console.log('listProvince', this.state.listProvince)
-        let { inforSpecialty, listProvince, selectProvice } = this.state;
-        let arrId = [75, 76, 77]
+        let { inforSpecialty, listProvince, selectProvice, arrId } = this.state;
+        console.log(this.state)
         return (
             <>
                 < HomeHeader />
                 <div className='detail-container'>
                     <div className='detail-specialty-top'>
-                        {inforSpecialty && inforSpecialty.data && inforSpecialty.data.descriptionHTML ?
-                            <span dangerouslySetInnerHTML={{ __html: inforSpecialty.data.descriptionHTML }} /> : ''
+                        {inforSpecialty && inforSpecialty.descriptionHTML ?
+                            <span dangerouslySetInnerHTML={{ __html: inforSpecialty.descriptionHTML }} /> : ''
                         }
                     </div>
                     <Select
                         className='provice-select'
                         value={selectProvice}
-                        // onChange={this.handleChange}
-                        // options={options}
+                        onChange={this.handleChangeSelectProvice}
                         options={listProvince}>
 
                     </Select>
                     <div className='detail-specialty-bottom'>
-                        {arrId && arrId.length > 0 &&
+                        {arrId && arrId.length > 0 ?
                             arrId.map((item, index) => {
                                 return (
                                     <div className='dt-specialty-container' key={index}>
                                         <div className='dt-specialty-left'>
                                             <ProfileDoctor
                                                 showInfor={true}
+                                                showViewMore={true}
                                                 doctorId={item}
                                             />
                                         </div>
@@ -109,6 +132,8 @@ class DetailSpecialty extends Component {
                                     </div>
                                 )
                             })
+                            :
+                            <div className='dt-specialty-container no-doctor' >Hiện tại chưa có bác sĩ tại khu vực này !</div>
                         }
                     </div>
                 </div>
@@ -122,13 +147,17 @@ class DetailSpecialty extends Component {
 const mapStateToProps = state => {
     return {
         // detailDoctor: state.admin.detailDoctor
+        allDoctor: state.admin.allDoctor, // gọi đến state của redux store , allDoctor thuộc adminReducer được combineReducers và đặt lại tên thành admin
+
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         // patientBookAppointment: (data) => dispatch(actions.patientBookAppointment(data)),
-        fetchDetailDoctor: (id) => dispatch(actions.fetchDetailDoctorStart(id))
+        // fetchDetailDoctor: (id) => dispatch(actions.fetchDetailDoctorStart(id)),
+        fetchAllDoctorRedux: () => dispatch(actions.fetchAllDoctorStart()), // fire 1 action đến redux
+
     };
 };
 

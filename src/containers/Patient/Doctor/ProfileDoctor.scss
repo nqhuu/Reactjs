@@ -2,6 +2,8 @@
     .detail-top {
         display: flex;
 
+        position: relative;
+
         .detail-top-left {
             width: 100px;
             height: 100px;
@@ -81,6 +83,12 @@
 
     .price {
         padding-top: 15px;
+    }
+
+    .viewMore-detail {
+        position: absolute;
+        margin-top: 15px;
+        left: 175px;
     }
 
     .detail-bottom {

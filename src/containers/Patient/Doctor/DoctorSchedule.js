@@ -41,7 +41,7 @@ class DoctorSchedule extends Component {
             // console.log('callApiScheduleDoctor', scheduleDoctorDb)
             if (scheduleDoctorDb && scheduleDoctorDb.errCode === 0) {
                 this.setState({
-                    schelduleDoctor: scheduleDoctorDb.data
+                    schelduleDoctor: scheduleDoctorDb.data ? scheduleDoctorDb.data : []
                 })
             }
         }

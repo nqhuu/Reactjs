@@ -198,6 +198,7 @@ class BookingModal extends Component {
                                 showInfor={false}
                                 dataTime={schelduleDoctorSelect}
                                 doctorId={doctorId}
+                                showViewMore={false}
 
                             />
                         </div>

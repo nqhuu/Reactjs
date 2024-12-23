@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Route, Switch, Link } from 'react-router-dom';
 import "./ProfileDoctor.scss";
 import NumericFormat from 'react-number-format';
 import { getProfileDoctorById, DetailDoctorService } from '../../../services/userService'
@@ -43,6 +44,13 @@ class ProfileDoctor extends Component {
                 dataTime: this.props.dataTime
             })
         }
+
+        if (prevProps.doctorId !== this.props.doctorId) {
+            let data = await this.getInforDoctor(this.props.doctorId)
+            this.setState({
+                detailDoctor: data
+            })
+        }
     }
 
     capitalizeFirstLetter(string) {
@@ -82,7 +90,6 @@ class ProfileDoctor extends Component {
     }
 
     render() {
-
         let { dataTime, detailDoctor } = this.state
 
         return (
@@ -94,7 +101,6 @@ class ProfileDoctor extends Component {
                         >
 
                         </div>
-
                         <div className='detail-top-right'>
                             <div className='detail-right-up'>
                                 {/* đặt điều kiện để tránh việc db chưa trả lên dữ liệu thì sẽ bị lỗi ứng dụng */}
@@ -112,21 +118,29 @@ class ProfileDoctor extends Component {
                                     {this.renderTimeBooking(dataTime, detailDoctor)}
                                 </>
                             }
-
-
-
                         </div>
-
                     </div>
-                    <div className='price'>Giá khám: <span> {detailDoctor && detailDoctor.doctorInfor && detailDoctor.doctorInfor.priceData.valueVi ?
-                        <NumericFormat
-                            value={detailDoctor.doctorInfor.priceData.valueVi}
-                            thousandSeparator={true}
-                            displayType='text'
-                            suffix={'vnd'}
-                            className={''}
-                        />
-                        : ''}</span></div>
+
+                    {this.props.showViewMore === true ?
+                        <Link
+                            className='viewMore-detail'
+                            to={`/detail-doctor/${this.props.doctorId}`
+                            } >
+                            Xem thêm
+                        </Link>
+                        :
+                        <div className='price'>Giá khám: <span> {detailDoctor && detailDoctor.doctorInfor && detailDoctor.doctorInfor.priceData.valueVi ?
+                            <NumericFormat
+                                value={detailDoctor.doctorInfor.priceData.valueVi}
+                                thousandSeparator={true}
+                                displayType='text'
+                                suffix={'vnd'}
+                                className={''}
+                            />
+                            : ''}</span>
+                        </div>
+                    }
+
                 </div>
             </>
         );
