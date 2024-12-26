@@ -91,6 +91,14 @@ const createNewClinic = (data) => {
     return axios.post('/api/create-new-clinic', data)
 }
 
+const fetchClinicService = (limit) => {
+    return axios.get(`/api/get-all-clinic?limit=${limit}`)
+}
+
+const getAllclinicById = (id) => {
+    return axios.get(`/api/get-detail-clinic-by-id?id=${id}`)
+}
+
 export {
     handleLoginApi, getAllUsers,
     createNewUserService, deleteUserService,
@@ -99,5 +107,7 @@ export {
     createInforDoctorService, DetailDoctorService,
     bulkCreateScheduleSevice, fetchScheduleDoctorService,
     patientBookAppointmentService,
-    postVerifyBookAppointmentService, createNewSpecialty, fetchSpecialtyService, getProfileDoctorById, getAllSpecialtyById, createNewClinic
+    postVerifyBookAppointmentService, createNewSpecialty, fetchSpecialtyService,
+    getProfileDoctorById, getAllSpecialtyById, createNewClinic,
+    fetchClinicService, getAllclinicById
 };

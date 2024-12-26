@@ -119,15 +119,15 @@ class ManageClinic extends Component {
                             onChange={(event) => this.handleOnchangeImage(event)}
                         />
                     </div>
-                </div>
 
-                <div className='col-6 form-group'>
-                    <label>Địa chỉ phòng khám</label>
-                    <input
-                        className='form-control'
-                        value={address}
-                        onChange={(event) => this.handleOnchangeInput(event, 'address')}
-                    />
+                    <div className='col-6 form-group'>
+                        <label>Địa chỉ phòng khám</label>
+                        <input
+                            className='form-control'
+                            value={address}
+                            onChange={(event) => this.handleOnchangeInput(event, 'address')}
+                        />
+                    </div>
                 </div>
 
                 <div className='manage-doctor-editor'>

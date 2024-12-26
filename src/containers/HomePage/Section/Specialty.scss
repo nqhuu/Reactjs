@@ -8,6 +8,15 @@
             .section-customize {
                 cursor: pointer;
             }
+
+            .section-name {
+                padding-top: 10px;
+                max-width: 278px;
+
+                &:hover {
+                    color: rgb(0, 119, 255);
+                }
+            }
         }
     }
 }

@@ -22,15 +22,6 @@ import _ from 'lodash';
 // Initialize a markdown parser
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
-// const options = [
-//     { label: 'Chocolate' },
-//     { value: 'strawberry', label: 'Strawberry' },
-//     { value: 'vanilla', label: 'Vanilla' },
-// ];
-
-
-
-
 
 class ManageDoctor extends Component {
 
@@ -52,7 +43,7 @@ class ManageDoctor extends Component {
         listProvince: [],
         listPayment: [],
         listSpecialty: [],
-        listClinicId: [],
+        listClinic: [],
 
         selectPrice: '',
         selectProvince: '',
@@ -81,10 +72,13 @@ class ManageDoctor extends Component {
             })
         }
         if (prevProps.listPriceProvincePayment !== this.props.listPriceProvincePayment) {
+            console.log('listPriceProvincePayment', this.props.listPriceProvincePayment)
+
             this.setState({
                 listPrice: this.props.listPriceProvincePayment.listPrice,
                 listProvince: this.props.listPriceProvincePayment.listProvince,
                 listPayment: this.props.listPriceProvincePayment.listPayment,
+                listClinic: this.props.listPriceProvincePayment.listClinic
             })
         }
         if (prevProps.listSpecialty !== this.props.listSpecialty) {
@@ -104,12 +98,14 @@ class ManageDoctor extends Component {
     checkIsEmpty = () => {
         let check = false
         const { selectedOption, description, selectPrice, selectPayment, selectProvince, nameClinic, addressClinic, contentMarkdown, contentHtml, selectSpecialty,
-            selectClinicId, } = this.state
+            selectClinic, listClinic } = this.state
         const objCheck = {
-            selectedOption, description, selectPrice, selectPayment, selectProvince, nameClinic, addressClinic, contentMarkdown, contentHtml, selectSpecialty,
-            // selectClinicId
+            selectedOption, description, selectPrice,
+            selectPayment, selectProvince, nameClinic,
+            addressClinic, contentMarkdown, contentHtml,
+            selectSpecialty, listClinic, selectClinic
         }
-        console.log('checkIsEmpty', objCheck)
+        // console.log('checkIsEmpty', objCheck)
         //check rỗng, nếu tất cả rỗng sẽ trả về isEmpty = true
         let isEmpty = Object.keys(objCheck).find((item) => _.isEmpty(objCheck[item]))
         if (isEmpty) check = true
@@ -127,8 +123,7 @@ class ManageDoctor extends Component {
         }
 
         let currentState = [this.state.contentMarkdown, this.state.description, this.state.selectPrice.value, this.state.selectProvince.value, this.state.selectPayment.value,
-        this.state.nameClinic, this.state.addressClinic, this.state.note, this.state.selectSpecialty.value
-            // ,this.state.selectClinicId
+        this.state.nameClinic, this.state.addressClinic, this.state.note, this.state.selectSpecialty.value, this.state.selectClinicId
         ]
         let dbState = [markDown.contentMarkdown, markDown.description, doctorInfor.priceId, doctorInfor.provinceId, doctorInfor.paymentId,
         doctorInfor.nameClinic, doctorInfor.addressClinic, doctorInfor.specialtyId, doctorInfor.note]
@@ -148,7 +143,8 @@ class ManageDoctor extends Component {
                 addressClinic: this.state.addressClinic,
                 note: this.state.note,
                 historyText: this.state.historyText,
-                specialtyId: this.state.selectSpecialty.value
+                specialtyId: this.state.selectSpecialty.value,
+                clinicId: this.state.selectClinic.value,
             })
         } else {
             toast.warning('Bạn chưa cập nhật thông tin nào')
@@ -184,13 +180,13 @@ class ManageDoctor extends Component {
                     dbData: '',
                 });
             }
-            if (res.data.doctorInfor && res.data.doctorInfor.priceData.id && res.data.doctorInfor.provinceData.id && res.data.doctorInfor.paymentData.id
-            ) {
+            if (res.data.doctorInfor && res.data.doctorInfor.priceData.id && res.data.doctorInfor.provinceData.id && res.data.doctorInfor.paymentData.id) {
                 let priceData = res.data.doctorInfor.priceData;
                 let provinceData = res.data.doctorInfor.provinceData;
                 let paymentData = res.data.doctorInfor.paymentData;
                 let specialtyId = res.data.doctorInfor.specialtyId;
                 let clinicId = res.data.doctorInfor.clinicId;
+
                 selectPrice = listPrice.find(item => item.id === priceData.id)
                 let selectPriceCopy = {
                     label: selectPrice.valueVi,
@@ -208,7 +204,6 @@ class ManageDoctor extends Component {
                 }
                 if (clinicId) {
                     selectClinic = listClinic.find(item => item.id === clinicId)
-                    console.log('selectClinic', selectClinic)
                     let clinicCopy = {
                         label: selectClinic.name,
                         value: selectClinic.id
@@ -226,7 +221,6 @@ class ManageDoctor extends Component {
 
                 if (specialtyId) {
                     selectSpecialty = listSpecialty.find(item => item.id === specialtyId)
-                    console.log('selectSpecialty', selectSpecialty)
                     let specialtyCopy = {
                         label: selectSpecialty.name,
                         value: selectSpecialty.id
@@ -298,7 +292,6 @@ class ManageDoctor extends Component {
     }
 
     render() {
-        // console.log('props', this.props)
         let { selectedOption, allDoctor, hasOldData,
             listPrice, listProvince, listPayment, listSpecialty, listClinic } = this.state
         return (
@@ -411,7 +404,7 @@ class ManageDoctor extends Component {
 
                     </div>
                     <div className='col-4 form-group'>
-                        <label>Chọn phòng khám</label>
+                        <label>Chọn phòng khám (*)</label>
                         <Select
                             className=''
                             options={this.buildDataInputSelect(listClinic, 'SPECIALTY')}
@@ -449,7 +442,7 @@ const mapStateToProps = state => {
     return {
         allDoctor: state.admin.allDoctor, // gọi đến state của redux store , allDoctor thuộc adminReducer được combineReducers và đặt lại tên thành admin
         listPriceProvincePayment: state.admin.listPriceProvincePayment,
-        listSpecialty: state.admin.listSpecialty
+        listSpecialty: state.admin.listSpecialty,
     };
 };
 
