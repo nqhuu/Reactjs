@@ -99,6 +99,18 @@ const getAllclinicById = (id) => {
     return axios.get(`/api/get-detail-clinic-by-id?id=${id}`)
 }
 
+const getListPatientForDoctor = (doctorId, date, patientId) => {
+    if (patientId) {
+        return axios.get(`/api/get-list-patient-for-doctor?doctorId=${doctorId}&date=${date}&patientId=${patientId}`)
+    } else {
+        return axios.get(`/api/get-list-patient-for-doctor?doctorId=${doctorId}&date=${date}`)
+    }
+}
+
+const getAllPatient = (doctorId, date) => {
+    return axios.get(`/api/get-All-patient-for-doctor?doctorId=${doctorId}&date=${date}`)
+}
+
 export {
     handleLoginApi, getAllUsers,
     createNewUserService, deleteUserService,
@@ -109,5 +121,5 @@ export {
     patientBookAppointmentService,
     postVerifyBookAppointmentService, createNewSpecialty, fetchSpecialtyService,
     getProfileDoctorById, getAllSpecialtyById, createNewClinic,
-    fetchClinicService, getAllclinicById
+    fetchClinicService, getAllclinicById, getListPatientForDoctor, getAllPatient
 };
