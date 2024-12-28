@@ -120,10 +120,11 @@ class ManageSchedule extends Component {
 
     render() {
         let { allDoctor, selectDoctor, rangeTime } = this.state
+        console.log(this.state)
         // console.log('rangeTime', rangeTime)
         // console.log('state', this.state)
         return (
-            <div className="manage-schedule-container" >
+            < div className="manage-schedule-container" >
                 <div className="m-s-title">
                     Quản lý kế hoạch khám bệnh của bác sĩ
                 </div>
@@ -135,7 +136,7 @@ class ManageSchedule extends Component {
                                 value={selectDoctor}
                                 onChange={this.handleChange}
                                 // options={options}
-                                options={this.state.allDoctor}
+                                options={allDoctor}
                             />
                         </div>
                         <div className="col-6 form-group">

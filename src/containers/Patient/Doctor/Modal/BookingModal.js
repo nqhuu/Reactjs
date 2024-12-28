@@ -138,8 +138,16 @@ class BookingModal extends Component {
             if (res && res.errCode === 0) {
                 // this.handleCloseModal()
                 this.setState({
-                    isLoading: !this.state.isLoading
+                    isLoading: !this.state.isLoading,
+                    fullName: '',
+                    phoneNumber: '',
+                    email: '',
+                    address: '',
+                    reason: '',
+                    birthDay: '',
+                    gender: 'M',
                 })
+                this.handleCloseModal()
             } else {
                 toast.warning('Bạn vui lòng chờ trong giấy lát')
             }
