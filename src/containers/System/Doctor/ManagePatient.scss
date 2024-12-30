@@ -18,7 +18,7 @@
             width: 100%;
         }
 
-        thead {
+        th {
             background-color: #f44336;
             color: #fff;
         }
@@ -30,8 +30,98 @@
             padding: 8px;
         }
 
-        tr:nth-child(even) {
-            background-color: #dddddd;
+        td:nth-child(1),
+        th:nth-child(1) {
+            width: 20px;
         }
+
+        .column-gender {
+            width: 80px;
+
+        }
+
+        .column-time {
+            width: 150px;
+        }
+
+        .column-name {
+            width: 150px;
+        }
+
+        .column-email {
+            width: 250px;
+        }
+
+        .column-phoneNumber {
+            width: 150px;
+        }
+
+        .column-address {
+            width: 755px;
+
+        }
+
+        .btn-action {
+            width: 178px;
+
+            .action {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+                text-align: center;
+                // justify-content: space-around;
+
+                .btn-complete {
+                    background-color: orange;
+                    min-width: 50px;
+                    padding: 5px 0;
+                    border-radius: 5px;
+                    cursor: pointer;
+
+                    &:hover {
+                        opacity: 80%;
+                    }
+                }
+
+                .btn-send-email-invoice {
+                    background-color: orange;
+                    min-width: 50px;
+                    padding: 5px 0;
+                    border-radius: 5px;
+                    cursor: pointer;
+
+                    &:hover {
+                        opacity: 80%;
+                    }
+
+                }
+
+                .btn-print-invoice {
+                    background-color: orange;
+                    min-width: 50px;
+                    padding: 5px 0;
+                    border-radius: 5px;
+                    cursor: pointer;
+
+                    &:hover {
+                        opacity: 80%;
+                    }
+
+                }
+            }
+        }
+
+        tr:nth-child(even) {
+            // background-color: #dddddd;
+        }
+
+
+    }
+
+
+    .notification {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 20px;
     }
 }

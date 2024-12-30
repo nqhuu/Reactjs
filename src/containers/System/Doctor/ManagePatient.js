@@ -7,7 +7,7 @@ import DatePicker from "../../../components/Input/DatePicker";
 // import moment from "moment";
 import _ from 'lodash';
 import { toast } from "react-toastify";
-import { getListPatientForDoctor, getAllPatient } from "../../../services/userService"
+import { getListPatientForDoctor } from "../../../services/userService"
 import moment from 'moment';
 
 
@@ -19,27 +19,29 @@ class ManagePatient extends Component {
         allPatientSelect: [],
         allPatient: [],
         currentDate: new Date(),
-        selectPatient: '',
+        selectPatient: {
+            value: null,
+            label: 'Tất cả',
+        },
         doctorId: ''
     };
 
     async componentDidMount() {
-        let { currentDate, selectPatient } = this.state;
+        let { currentDate } = this.state;
         let doctorId = this.props.user.id;
         // convert to timestamp 
         let timeStem = currentDate.setHours(0, 0, 0, 0) //cho giờ về 0000
         let formatDate = new Date(timeStem).getTime();
 
-        await this.getAllPatientForDoctor(doctorId, formatDate, selectPatient.value)
-        // await this.getPatientForDoctor(doctorId, formatDate, selectPatient.value)
+        await this.getAllPatientForDoctor(doctorId, formatDate)
 
     }
 
     getAllPatientForDoctor = async (doctorId, formatDate,) => {
-
-        let response = await getAllPatient(doctorId, formatDate)
+        let { selectPatient } = this.state
+        let response = await getListPatientForDoctor(doctorId, formatDate)
         if (response && response.errCode === 0) {
-            let patientData = response.data
+            let patientData = response.data;
             let allPatient = patientData.map((item, index) => {
                 let patient = {};
                 patient.value = item.patientId;
@@ -48,19 +50,21 @@ class ManagePatient extends Component {
             })
 
             allPatient.unshift({
+                value: null,
                 label: 'Tất cả',
-                value: null
             })
-
-            if (this.state.selectPatient) {
-                let allPatientCopy = [...this.state.allPatient];
-                let allPatientIs = allPatientCopy.filter((item, index) => item.patientId === this.state.selectPatient.value)
+            this.setState({
+                allPatientSelect: allPatient
+            })
+            let allPatientCopy = [...patientData];
+            allPatientCopy.sort()
+            if (selectPatient.value) {
+                let allPatientSl = allPatientCopy.filter((item, index) => item.patientId === selectPatient.value)
                 this.setState({
-                    allPatient: allPatientIs,
+                    allPatient: allPatientSl,
                 })
             } else {
                 this.setState({
-                    allPatientSelect: allPatient,
                     allPatient: patientData
                 })
             }
@@ -68,35 +72,29 @@ class ManagePatient extends Component {
         }
     }
 
-    // getPatientForDoctor = async (doctorId, formatDate, patientId) => {
-    //     let response = await getListPatientForDoctor(doctorId, formatDate, patientId)
-    //     if (response && response.errCode === 0) {
-    //         let patientData = response.data
-    //         this.setState({
-    //             allPatient: patientData
-    //         })
-    //     }
-    // }
 
     async componentDidUpdate(prevProps, prevState, snapshot) { // sau khi chạy xong componentDidMount thì chạy tới đây và kiểm tra và cập nhật lại state cho component
 
         if (prevState.selectPatient !== this.state.selectPatient) {
-            let { currentDate, selectPatient } = this.state;
+            let { currentDate } = this.state;
             let doctorId = this.props.user.id;
+
             // convert to timestamp 
             let timeStem = currentDate.setHours(0, 0, 0, 0) //cho giờ về 0000
             let formatDate = new Date(timeStem).getTime();
 
-            await this.getAllPatientForDoctor(doctorId, formatDate, selectPatient.value)
+            await this.getAllPatientForDoctor(doctorId, formatDate)
         }
+
         if (prevState.currentDate !== this.state.currentDate) {
-            let { currentDate, selectPatient } = this.state;
+            let { currentDate } = this.state;
             let doctorId = this.props.user.id;
+
             // convert to timestamp 
             let timeStem = currentDate.setHours(0, 0, 0, 0) //cho giờ về 0000
             let formatDate = new Date(timeStem).getTime();
 
-            await this.getAllPatientForDoctor(doctorId, formatDate, selectPatient.value)
+            await this.getAllPatientForDoctor(doctorId, formatDate)
         }
     }
 
@@ -118,9 +116,9 @@ class ManagePatient extends Component {
 
 
     render() {
-        let { selectPatient, allPatientSelect, allPatient } = this.state
-        console.log(selectPatient)
-        console.log(this.state)
+        let { selectPatient, allPatientSelect, allPatient } = this.state;
+        console.log('allPatient', allPatient)
+
         return (
             <div className="manage-patient-container" >
                 <div className="m-s-title">
@@ -148,24 +146,48 @@ class ManagePatient extends Component {
                 </div>
                 <div className="table-patient">
                     <table>
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th className="column-time">Thời gian hẹn</th>
+                                <th className="column-name">Họ Tên</th>
+                                <th className="column-gender">Giới tính</th>
+                                <th className="column-email">Email</th>
+                                <th className="column-phoneNumber">Số điện thoại</th>
+                                <th className="column-address">Địa chỉ</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                            <tr>
-                                <th>Company</th>
-                                <th>Contact</th>
-                                <th>Country</th>
-                            </tr>
-                            <tr>
-                                <td>Alfreds Futterkiste</td>
-                                <td>Maria Anders</td>
-                                <td>Germany</td>
-                            </tr>
-                            <tr>
-                                <td>Centro comercial Moctezuma</td>
-                                <td>Francisco Chang</td>
-                                <td>Mexico</td>
-                            </tr>
+                            {allPatient && allPatient.length > 0 &&
+                                allPatient.map((item, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td >{index + 1}</td>
+                                            <td className="column-time">{item.timeTypePatient.valueVi}</td>
+                                            <td className="column-name">{item.bookingData.firstName}</td>
+                                            <td className="column-gender">{item.bookingData.genderData.valueVi}</td>
+                                            <td className="column-email">{item.bookingData.email}</td>
+                                            <td className="column-phoneNumber">{item.bookingData.phonenumber}</td>
+                                            <td className="column-address">{item.bookingData.address}</td>
+                                            <td className="btn-action">
+                                                {
+                                                    <div className="action">
+                                                        <div className="btn-complete"><i class="fa fa-check" aria-hidden="true"></i></div>
+                                                        <div className="btn-send-email-invoice"><i class="fa fa-envelope" aria-hidden="true"></i></div>
+                                                        <div className="btn-print-invoice"><i className="fa fa-print" aria-hidden="true"></i></div>
+                                                    </div>
+                                                }
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
                         </tbody>
                     </table>
+                    {!allPatient || allPatient.length === 0 &&
+                        <div className="notification">Hiện tại không có lịch khám nào vào ngày này</div>
+                    }
                 </div>
             </div >
         );
