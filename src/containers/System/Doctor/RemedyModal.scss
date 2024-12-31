@@ -1,0 +1,109 @@
+.Modal-booking-container {
+    .modal-booking-content {
+        // height: 400px;
+        display: flex;
+        flex-direction: column;
+        outline: none;
+
+        .modal-booking-header {
+            height: 30px;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            /* Bật Flexbox */
+            align-items: center;
+            /* Căn giữa theo trục dọc */
+            justify-content: space-between;
+
+            /* Đẩy các phần tử hai bên */
+            .content-header {
+                padding: 5px;
+                font-weight: 600;
+            }
+
+            .btn-close {
+                display: flex;
+                align-items: center;
+                /* Căn giữa nội dung */
+                justify-content: center;
+                /* Căn giữa nội dung */
+                font-size: 15px;
+                color: #000;
+                width: 30px;
+                height: 30px;
+                background-color: red;
+
+                &:hover {
+                    color: white;
+                    cursor: pointer;
+                    opacity: 70%;
+                }
+            }
+        }
+
+        .modal-booking-body {
+            height: 100%;
+            padding: 15px;
+
+            .profile-doctor {
+                // padding-bottom: 15px;
+            }
+
+            .row {
+                padding-top: 10px;
+            }
+        }
+
+        .modal-booking-footer {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            /* Căn giữa nội dung */
+            justify-content: end;
+            /* Căn giữa nội dung */
+            border-top: 1px solid #ccc;
+            gap: 5px;
+            padding-right: 5px;
+
+
+            span {
+                color: red;
+                // text-align: center;
+                flex: 1;
+                /* Chiếm toàn bộ khoảng trống còn lại để căn giữa */
+                display: flex;
+                background-color: rgb(250, 250, 123);
+                height: 30px;
+                font-size: 18px;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .btn-confirm {
+                min-width: 80px;
+                outline: none;
+                border: none;
+                border-radius: 3px;
+                background-color: orange;
+                padding: 5px 0;
+
+                &:hover {
+                    opacity: 80%;
+                }
+            }
+
+            .btn-close {
+                min-width: 80px;
+                outline: none;
+                border: none;
+                border-radius: 3px;
+                background-color: rgba(139, 139, 141, 0.877);
+                padding: 5px 0;
+
+                &:hover {
+                    opacity: 80%;
+                }
+
+            }
+        }
+    }
+}
