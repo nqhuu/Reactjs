@@ -60,7 +60,7 @@ class RemedyModal extends Component {
         })
     }
 
-
+    // SU DUNG base64 (CHUAN)
     handleOnchangeImage = async (event) => {
         console.log(event.target.value)
         let img = event.target.files
@@ -69,6 +69,14 @@ class RemedyModal extends Component {
             base64: base64Img
         })
     }
+    // TEST LẤY THEO ĐƯỜNG LINK TRÊN MÁY - CẦN SỬ DỤNG THÊM THƯ VIỆN ĐỂ LẤY VỀ ĐƯỜNG LINK CHUẢN
+    // handleOnchangeImage = async (event) => {
+    //     let img = event.target.value
+    //     console.log(event.target.value)
+    //     this.setState({
+    //         base64: img
+    //     })
+    // }
 
     render() {
         let { DataPatient, doctorName } = this.props;

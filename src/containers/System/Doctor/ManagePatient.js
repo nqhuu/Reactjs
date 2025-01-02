@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { getListPatientForDoctor, sendRemedy } from "../../../services/userService"
 import moment from 'moment';
 import RemedyModal from './RemedyModal'
+import LoadingOverlay from 'react-loading-overlay';
 
 
 
@@ -27,6 +28,7 @@ class ManagePatient extends Component {
         doctorId: '',
         isOpenModal: false,
         itemModalSelect: [],
+        isActive: false,
     };
 
     async componentDidMount() {
@@ -116,16 +118,20 @@ class ManagePatient extends Component {
     }
 
     handleSendRemedy = async (dataModal) => {
+        this.setState({
+            isActive: true
+        })
         let response = await sendRemedy(dataModal)
         if (response && response.errCode === 0) {
             toast.success(response.errMessage)
             this.setState({
-                isOpenModal: false
+                isOpenModal: false,
+                isActive: false
             })
             await this.getAllPatientForDoctor()
         } else {
             this.setState({
-                isOpenModal: false
+                isOpenModal: false,
             })
             toast.error(response.errMessage + 'fe')
         }
@@ -137,10 +143,17 @@ class ManagePatient extends Component {
         })
     }
     render() {
-        let { selectPatient, allPatientSelect, allPatient } = this.state;
+        let { selectPatient, allPatientSelect, allPatient, isActive } = this.state;
 
         return (
             <>
+                <LoadingOverlay
+                    active={isActive}
+                    spinner
+                    text='Loading...'
+                >
+                </LoadingOverlay>
+
                 <div className="manage-patient-container" >
                     <div className="m-s-title">
                         Quản lý lịch khám bệnh
